@@ -239,7 +239,6 @@ $env:PYTHONPATH = (Resolve-Path -LiteralPath src).Path
 $env:PYTHONDONTWRITEBYTECODE = "1"
 
 & $Python -m vipibench.cli version
-& $Python -m vipibench.cli doctor --project-root .
 ```
 
 ### Linux or macOS shell
@@ -259,11 +258,17 @@ export PYTHONPATH="$(pwd)/src"
 export PYTHONDONTWRITEBYTECODE=1
 
 "$PYTHON" -m vipibench.cli version
-"$PYTHON" -m vipibench.cli doctor --project-root .
 ```
 
-`doctor` checks requirement ownership and project coverage. A passing result is
-an engineering-contract check, not confirmatory launch readiness.
+The source-only checkout is intentionally usable without private runtime
+receipts. The default test command marks evidence-bound checks with
+`private_integration`; they run automatically when the complete private bundle
+and its generated evidence are present, and otherwise skip with an explicit
+reason. This keeps a fresh clone honest instead of treating missing evidence as
+readiness. In the complete private integration bundle, run
+`vipibench doctor --project-root .` to audit requirement ownership and active
+coverage. A passing result is an engineering-contract check, not confirmatory
+launch readiness.
 
 ## Local verification
 
@@ -274,6 +279,13 @@ verification environment active:
 & $Python -m ruff check --no-cache src tests scripts
 & $Python -m pytest -q -p no:cacheprovider
 & $Python -m vipibench.cli version
+```
+
+For the separate private integration bundle, where the outer operator files
+and generated evidence are available:
+
+```powershell
+& $Python -m pytest -m private_integration -q -p no:cacheprovider
 & $Python -m vipibench.cli doctor --project-root .
 ```
 

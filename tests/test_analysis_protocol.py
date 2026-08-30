@@ -1,6 +1,7 @@
 from copy import deepcopy
 from pathlib import Path
 
+import pytest
 import yaml
 
 from vipibench.analysis_protocol import validate_confirmatory_analysis_protocol
@@ -14,6 +15,7 @@ def _load() -> dict[str, object]:
     return value
 
 
+@pytest.mark.private_integration
 def test_live_confirmatory_analysis_protocol_passes(tmp_path: Path) -> None:
     output = tmp_path / "analysis.json"
     result = validate_confirmatory_analysis_protocol(Path.cwd(), CONFIG, output)

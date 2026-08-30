@@ -39,6 +39,7 @@ def test_locked_catalog_compiles_exact_target_composition(compiled_catalog) -> N
     assert manifest["native_vietnamese_ratio"] == 0.6
 
 
+@pytest.mark.private_integration
 def test_catalog_hash_is_deterministic(compiled_catalog) -> None:
     persisted = json.loads(
         Path("outputs/executable_benchmark_compile.json").read_text(encoding="utf-8")

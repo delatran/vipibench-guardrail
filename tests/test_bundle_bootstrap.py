@@ -31,11 +31,17 @@ from vipibench.security import (
 )
 
 BOOTSTRAP_PATH = Path(__file__).parents[2] / "bootstrap.py"
+if not BOOTSTRAP_PATH.is_file():
+    pytest.skip(
+        "private outer integration bundle is not present in this source checkout",
+        allow_module_level=True,
+    )
 SPEC = importlib.util.spec_from_file_location("vipibench_bundle_bootstrap", BOOTSTRAP_PATH)
 assert SPEC is not None and SPEC.loader is not None
 BOOTSTRAP = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(BOOTSTRAP)
 BUNDLE_ROOT = Path(__file__).parents[2]
+pytestmark = pytest.mark.private_integration
 
 
 def _args(**updates: object) -> Namespace:

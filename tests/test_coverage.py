@@ -1,6 +1,7 @@
 from copy import deepcopy
 from pathlib import Path
 
+import pytest
 import yaml
 
 from vipibench.coverage import audit_proposal_coverage
@@ -18,6 +19,7 @@ def _write_manifest(path: Path, value: dict[str, object]) -> None:
     path.write_text(yaml.safe_dump(value, sort_keys=False), encoding="utf-8")
 
 
+@pytest.mark.private_integration
 def test_live_proposal_coverage_manifest_passes() -> None:
     project_root = Path.cwd()
     manifest = _load_live_manifest(project_root)

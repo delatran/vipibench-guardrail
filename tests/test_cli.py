@@ -1,5 +1,6 @@
 import json
 
+import pytest
 from typer.testing import CliRunner
 
 from vipibench.cli import app
@@ -26,6 +27,7 @@ def test_encoder_gpu_and_cpu_substage_commands_are_exposed() -> None:
     assert "materialize-report-assets" in result.stdout
 
 
+@pytest.mark.private_integration
 def test_doctor_passes_revised_contract() -> None:
     result = runner.invoke(app, ["doctor", "--project-root", "."])
     assert result.exit_code == 0, result.stdout

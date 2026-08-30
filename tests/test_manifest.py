@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+import pytest
+
 from vipibench.manifest import build_manifest, readiness_manifest_paths, verify_manifest
 
 
@@ -37,6 +39,7 @@ def test_manifest_rejects_empty_subset_and_unsafe_artifact_entries(tmp_path: Pat
     assert "artifact_path_unsafe:../source.txt" in unsafe["errors"]
 
 
+@pytest.mark.private_integration
 def test_readiness_manifest_requires_the_complete_canonical_path_set(tmp_path: Path) -> None:
     root = Path.cwd()
     source_manifest = json.loads((root / "artifact_manifest.json").read_text(encoding="utf-8"))

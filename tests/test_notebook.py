@@ -10,10 +10,16 @@ import pytest
 from vipibench.dataio import write_json
 from vipibench.notebook_check import check_notebook, execute_smoke_cells
 
+OUTER_NOTEBOOK_PATH = Path(__file__).parents[2] / "RUN_EXPERIMENT.ipynb"
+requires_outer_notebook = pytest.mark.skipif(
+    not OUTER_NOTEBOOK_PATH.is_file(),
+    reason="private outer operator notebook is not present in this source checkout",
+)
+
 
 def _load_stream_helper():
     notebook = json.loads(
-        (Path(__file__).parents[2] / "RUN_EXPERIMENT.ipynb").read_text(encoding="utf-8")
+        OUTER_NOTEBOOK_PATH.read_text(encoding="utf-8")
     )
     source = next(
         "".join(cell["source"])
@@ -36,6 +42,7 @@ def _load_stream_helper():
         "_reader_friendly_line",
         "_is_dynamic_progress",
         "_checkpoint_summary",
+        "_restore_phase_hint",
         "_emit_coalesced_progress",
         "_emit_stream_heartbeat",
         "_run_visible",
@@ -59,9 +66,10 @@ def _load_stream_helper():
     return namespace["_run_visible"]
 
 
+@requires_outer_notebook
 def test_operator_notebook_binds_all_controller_commands_to_its_fresh_work_root() -> None:
     notebook = json.loads(
-        (Path(__file__).parents[2] / "RUN_EXPERIMENT.ipynb").read_text(encoding="utf-8")
+        OUTER_NOTEBOOK_PATH.read_text(encoding="utf-8")
     )
     source = "\n".join(
         "".join(cell.get("source", []))
@@ -580,6 +588,7 @@ def test_confirmatory_notebook_names_response_truncation_as_the_stopping_cause(
     assert "không đúng cấu trúc JSON" not in visible
 
 
+@requires_outer_notebook
 def test_launch_notebook_reports_exited_parent_even_when_descendant_keeps_stdout() -> None:
     run_visible = _load_stream_helper()
     parent_code = "\n".join(
@@ -606,6 +615,7 @@ def test_launch_notebook_reports_exited_parent_even_when_descendant_keeps_stdout
     assert time.monotonic() - started < 1.0
 
 
+@requires_outer_notebook
 def test_launch_notebook_stream_uses_reader_friendly_failure_terms(
     capsys: pytest.CaptureFixture[str],
 ) -> None:
@@ -633,6 +643,7 @@ def test_launch_notebook_stream_uses_reader_friendly_failure_terms(
     assert "sinh quỹ đạo phản hồi của mô hình" in visible
 
 
+@requires_outer_notebook
 def test_launch_notebook_stream_does_not_rewrite_lowercase_dependency_names(
     capsys: pytest.CaptureFixture[str],
 ) -> None:

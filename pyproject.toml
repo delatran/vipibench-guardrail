@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Reproducible Vietnamese context-aware prompt-injection detection research pipeline."
 readme = "README.md"
 requires-python = ">=3.11,<3.13"
-license = "LicenseRef-Internal-Research-Pending-Review"
+license = { file = "LICENSE.md" }
 authors = [{name = "ViPIBench research project"}]
 dependencies = [
   "fastapi==0.139.0",
@@ -55,6 +55,9 @@ where = ["src"]
 addopts = "-ra --strict-markers"
 testpaths = ["tests"]
 pythonpath = ["src"]
+markers = [
+  "private_integration: requires the private outer bundle and generated evidence",
+]
 
 [tool.ruff]
 target-version = "py311"

@@ -52,6 +52,7 @@ def test_accelerator_profile_rejects_wrong_capability_and_memory() -> None:
     assert "minimum_system_ram_gib_invalid" in errors
 
 
+@pytest.mark.private_integration
 def test_live_preflight_is_schema_valid_and_claim_bounded(tmp_path: Path) -> None:
     output = tmp_path / "prelaunch_readiness.json"
     bootstrapping = any(
@@ -122,6 +123,7 @@ def test_preflight_uses_session_environment_and_defers_stale_host_cleanliness(
     assert "bootstrap_evidence_boundary" in names
 
 
+@pytest.mark.private_integration
 def test_active_runtime_preflight_accepts_current_session_evidence(tmp_path: Path) -> None:
     session_environment = tmp_path / "session_environment.json"
     session_environment.write_text(

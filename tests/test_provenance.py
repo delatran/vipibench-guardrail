@@ -1,6 +1,7 @@
 from copy import deepcopy
 from pathlib import Path
 
+import pytest
 import yaml
 
 import vipibench.provenance as provenance_module
@@ -17,6 +18,7 @@ def _write_yaml(path: Path, value: dict[str, object]) -> None:
     path.write_text(yaml.safe_dump(value, sort_keys=False), encoding="utf-8")
 
 
+@pytest.mark.private_integration
 def test_live_frozen_benchmark_provenance_passes(tmp_path: Path) -> None:
     output = tmp_path / "provenance.json"
     result = verify_provenance(Path.cwd(), output_path=output)
@@ -59,6 +61,7 @@ def test_provenance_rejects_missing_confirmatory_binding(tmp_path: Path) -> None
     assert "bindings_must_equal_required_set" in result["errors"]
 
 
+@pytest.mark.private_integration
 def test_live_internal_training_authorization_passes(tmp_path: Path) -> None:
     output = tmp_path / "authorization.json"
     result = verify_training_authorization(Path.cwd(), output_path=output)

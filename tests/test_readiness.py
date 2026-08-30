@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 
 import jsonschema
+import pytest
 
 from vipibench.readiness import MILESTONE, _artifact_check, evaluate_launch_readiness
 
@@ -13,6 +14,7 @@ def test_missing_artifact_fails_closed() -> None:
     assert result["evidence"]["exists"] is False
 
 
+@pytest.mark.private_integration
 def test_live_readiness_is_schema_valid_and_bounded(tmp_path: Path) -> None:
     output = tmp_path / "readiness.json"
     bootstrapping_clean_environment = os.environ.get("VIPIBENCH_CLEAN_ENV_BOOTSTRAP") == "1"
