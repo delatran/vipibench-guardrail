@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "status": "locked_protocol",
+  "mode": "autonomous",
+  "session": {
+    "hard_ceiling_hours": 72,
+    "resource_observation_interval_seconds": 15,
+    "snapshot_interval_seconds": 300,
+    "snapshot_profile": "confirmatory_resume_v1",
+    "snapshot_stop_timeout_seconds": 300,
+    "timeout_action": "final_atomic_snapshot_then_verified_checkpoint_resume"
+  },
+  "capacity": {
+    "selection_source": "bounded_live_warmup",
+    "selection_metric": "maximum_throughput_within_memory_reserve",
+    "fallback_outside_locked_candidate_ladders": false
+  },
+  "training_stop": {
+    "decision_split": "dev",
+    "decision_metric": "dev_auprc",
+    "parameter_source": "configs/models/mdeberta_core.yaml",
+    "maximum_epochs_role": "safety_ceiling",
+    "final_holdout_feedback_allowed": false
+  },
+  "resume": {
+    "mode": "verified_checkpoint_only",
+    "stale_or_mismatched_checkpoint_action": "fail_closed"
+  },
+  "claim_boundary": "The pipeline controls technical runtime decisions. Starting paid compute remains an explicit operator action, and final-holdout measurements never control training, capacity, or rerun decisions."
+}

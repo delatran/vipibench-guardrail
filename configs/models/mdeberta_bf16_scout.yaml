@@ -1,0 +1,68 @@
+schema_version: 1.0.0
+run_name: mdeberta_bf16_scout
+status: exploratory_development_only
+execution_scope: train_and_development_only
+decision_owner: precision_scout_protocol
+control_config:
+  path: configs/models/mdeberta_core.yaml
+  sha256: C630162DDEDB61E045E3EE3A9753F98656643FC4BD1B30E24BFE448AE0F6FDA2
+runtime_profile: configs/profiles/accelerator_80gb.yaml
+backbone: microsoft/mdeberta-v3-base
+model_revision: a0484667b22365f84929a935b5e50a51f71f159d
+tokenizer_revision: a0484667b22365f84929a935b5e50a51f71f159d
+input_modes: [text_role]
+seeds: [17, 29, 43]
+max_length: 512
+learning_rate: 2.0e-5
+epochs: 5
+effective_train_batch_size: 64
+batch_candidates: [16, 32, 64, 128]
+gradient_checkpointing_options: [false, true]
+gradient_checkpointing_use_reentrant: false
+target_memory_utilization: 0.88
+mixed_precision: bf16
+parameter_storage_dtype: fp32
+autocast_dtype: bfloat16
+optimizer: adamw_torch
+optimizer_state_dtype: fp32
+max_grad_norm: 1.0
+numerics_policy: fail_fast_finite
+numerics_canary_optimizer_steps: 2
+capacity_probe_input_mode: text_role
+capacity_warmup_optimizer_steps: 2
+capacity_measurement_optimizer_steps: 5
+dataloader_worker_candidates: [2, 4, 8]
+dataloader_worker_warmup_batches: 2
+dataloader_worker_measurement_batches: 8
+dataloader_worker_repeats: 2
+dataloader_persistent_workers: true
+dataloader_prefetch_factor: 2
+early_stopping_metric: dev_auprc
+early_stopping_patience: 2
+early_stopping_threshold: 0.001
+threshold_source: dev_only
+primary_fpr: 0.05
+secondary_fpr: 0.01
+system_input_mode: text_role
+contrast_dataset: data/processed/provenance_contrast.jsonl
+allowed_partitions: [train, dev]
+test_evaluation_allowed: false
+final_holdout_feedback_allowed: false
+precision_difference_only: true
+quality_gate:
+  primary_metric: dev_auprc
+  aggregation: mean_across_fixed_seeds
+  mean_noninferiority_margin: 0.005
+  per_seed_max_degradation: 0.01
+  minimum_capacity_throughput_ratio: 1.10
+  maximum_median_training_wall_time_ratio: 0.90
+  same_live_device_observation_required: true
+  all_finite_canaries_required: true
+promotion_policy:
+  automatic_promotion_allowed: false
+  final_holdout_may_influence_promotion: false
+  required_next_step: new_versioned_confirmatory_protocol_after_development_review
+claim_boundary: >-
+  This scout can compare FP32 and BF16 AMP on the development partitions of one observed
+  A100 runtime. A passing gate only makes BF16 eligible for a separately versioned protocol
+  review; it never promotes BF16 automatically and is not confirmatory or final-holdout evidence.

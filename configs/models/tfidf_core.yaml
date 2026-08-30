@@ -1,0 +1,14 @@
+run_name: tfidf_core
+model_type: tfidf_logistic
+input_mode: text_role
+seed: 17
+train_path: data/splits/frozen/train.jsonl
+dev_path: data/splits/frozen/dev.jsonl
+test_path: data/splits/frozen/test.jsonl
+contrast_dataset: data/processed/provenance_contrast.jsonl
+output_dir: outputs/full/tfidf/model
+word_ngram_range: [1, 2]
+char_ngram_range: [3, 5]
+max_features: 50000
+class_weight: balanced
+fixture_only: false

@@ -1,0 +1,44 @@
+schema_version: "4.0.0"
+name: adaptive_attack_generator
+purpose: equal_budget_static_and_feedback_guided_attack_generation
+base_dataset: data/splits/confirmatory_final/test.jsonl
+model_id: Qwen/Qwen3-4B
+model_revision: 1cfa9a7208912126459214e8b04321603b3df60c
+tokenizer_revision: 1cfa9a7208912126459214e8b04321603b3df60c
+model_license: Apache-2.0
+runtime_profile: configs/profiles/accelerator_80gb.yaml
+root_seed: 20260716
+static_batch_candidates: [1, 2, 4]
+guided_batch_candidates: [1, 2, 4, 8]
+target_memory_utilization: 0.88
+candidates_per_episode: 10
+proposal_budget_semantics: model_outputs_no_retry
+static_prompt_mode: indexed_single_return
+structural_repair_method_version: deterministic-identity-suffix-v1
+capacity_probe_new_tokens: 128
+capacity_warmup_batches: 1
+capacity_measurement_repeats: 3
+max_input_tokens: 2048
+generation_execution_candidates: [dynamic_eager, static_compile]
+generation_execution_equivalence: exact_decoded_text_sha256_per_repeat
+generation_execution_probe_new_tokens: 384
+generation_execution_warmup_batches: 1
+generation_execution_measurement_repeats: 3
+static_cache_max_length: 2432
+static_compile_backend: inductor
+static_compile_mode: reduce-overhead
+static_compile_fullgraph: false
+max_new_tokens: 384
+temperature: 0.8
+top_p: 0.9
+enable_thinking: false
+trust_remote_code: false
+allow_model_revision_fallback: false
+allow_host_fallback: false
+external_storage_mount: false
+automatic_upload: false
+public_release: false
+deterministic_oracle_required: true
+reject_on_schema_or_invariant_failure: true
+free_form_model_judge_is_ground_truth: false
+candidate_validity_schema_version: "1.0.0"

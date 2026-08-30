@@ -1,0 +1,416 @@
+schema_version: 2.0.0
+
+requirements:
+  - id: SOURCE-001
+    proposal_section: "19"
+    requirement: The revised proposal, research charter, RQ1-RQ3, H1-H4, endpoints, split, stopping rule, attack budget, lifecycle gates, and evidence maturity boundaries are hash-bound before confirmatory test inspection.
+    phase: pre_run
+    status: PASS_ENGINEERING
+    implemented_evidence:
+      - docs/implementation_contract.md
+      - docs/research/benchmark_readiness_2026-07-16/final_report.md
+      - docs/research/proposal_quality_upgrade_2026-07-16/final_report.md
+      - docs/proposal_coverage.yaml
+    required_runtime_artifacts: []
+    blocked_by: []
+    verifier: vipibench audit-proposal-coverage --project-root .
+
+  - id: DATA-001
+    proposal_section: "6"
+    requirement: An executable episode schema, typed templates, compiler, deterministic security oracle, and clean-utility oracle exist.
+    phase: pre_run
+    status: PASS_ENGINEERING
+    implemented_evidence:
+      - docs/implementation_contract.md
+      - docs/research/zero_touch_a100_thesis_2026-07-16/final_report.md
+      - src/vipibench/episode.py
+      - src/vipibench/oracle.py
+      - src/vipibench/exec_fixture.py
+      - src/vipibench/compiler.py
+      - docs/schema/vipibench_episode.schema.json
+    required_runtime_artifacts:
+      - outputs/exec_oracle_verification.json
+    blocked_by: []
+    verifier: pytest tests/test_exec_oracle.py tests/test_episode_schema.py
+
+  - id: DATA-002
+    proposal_section: "6"
+    requirement: ViPIBench-Exec contains exactly 2,400 validated episodes from 80 template families over four domains with the locked 48/16/16 family split.
+    phase: pre_run
+    status: PASS_ENGINEERING
+    implemented_evidence:
+      - configs/benchmark/exec_catalog.yaml
+      - docs/implementation_contract.md
+      - src/vipibench/compiler.py
+      - src/vipibench/exec_validation.py
+      - data/processed/vipibench_exec.jsonl
+      - data/processed/vipibench_exec_templates.jsonl
+      - outputs/executable_benchmark_compile.json
+    required_runtime_artifacts:
+      - data/processed/vipibench_exec.jsonl
+      - outputs/executable_benchmark_validation.json
+    blocked_by: []
+    verifier: vipibench validate-exec-benchmark data/processed/vipibench_exec.jsonl
+
+  - id: DATA-003
+    proposal_section: "6"
+    requirement: The executable benchmark contains at least 50 percent native Vietnamese, 600 hard negatives, and 200 complete counterfactual matched pairs.
+    phase: pre_run
+    status: PASS_ENGINEERING
+    implemented_evidence:
+      - docs/implementation_contract.md
+      - configs/benchmark/exec_catalog.yaml
+      - src/vipibench/compiler.py
+      - src/vipibench/exec_validation.py
+      - tests/test_compiler.py
+      - tests/test_exec_validation.py
+    required_runtime_artifacts:
+      - outputs/exec_composition_audit.json
+    blocked_by: []
+    verifier: vipibench audit-exec-composition data/processed/vipibench_exec.jsonl
+
+  - id: DATA-009
+    proposal_section: "6"
+    requirement: A 1,200-pair provenance-contrast suite preserves identical semantic text within each pair while swapping trusted and untrusted source binding across train, dev, primary test, and diagnostic test slices.
+    phase: pre_run
+    status: PASS_ENGINEERING
+    implemented_evidence:
+      - configs/benchmark/provenance_contrast.yaml
+      - src/vipibench/provenance_contrast.py
+      - src/vipibench/detector_view.py
+      - tests/test_provenance_contrast.py
+    required_runtime_artifacts:
+      - data/processed/provenance_contrast.jsonl
+      - outputs/provenance_contrast_manifest.json
+      - outputs/provenance_contrast_audit.json
+    blocked_by: []
+    verifier: vipibench audit-provenance-contrast data/processed/provenance_contrast.jsonl
+
+  - id: DATA-004
+    proposal_section: "15"
+    requirement: Every episode and synthetic training context has immutable template, generator, transformation, source, license, and hash lineage with an explicit internal/public decision.
+    phase: pre_run
+    status: PASS_ENGINEERING
+    implemented_evidence:
+      - data/provenance_ledger.yaml
+      - data/release_decision.yaml
+      - docs/data_card.md
+      - src/vipibench/provenance.py
+      - tests/test_provenance.py
+    required_runtime_artifacts:
+      - outputs/provenance_verification.json
+      - outputs/training_authorization_verification.json
+    blocked_by: []
+    verifier: vipibench verify-provenance --project-root . --output outputs/provenance_verification.json
+
+  - id: DATA-005
+    proposal_section: "6"
+    requirement: Seeds, templates, pairs, and derived variants never cross splits; exact and near-duplicate leakage are audited and the test hash is frozen.
+    phase: pre_run
+    status: PASS_ENGINEERING
+    implemented_evidence:
+      - src/vipibench/splits.py
+      - src/vipibench/exec_splits.py
+      - docs/implementation_contract.md
+      - tests/test_exec_splits.py
+      - data/splits/frozen/split_audit.json
+    required_runtime_artifacts:
+      - data/splits/frozen/split_manifest.json
+      - data/splits/frozen/split_audit.json
+    blocked_by: []
+    verifier: vipibench audit-exec-splits data/splits/frozen
+
+  - id: DATA-006
+    proposal_section: "6"
+    requirement: Template-, attack-, surface-realization-, and domain-held-out slices are represented in machine-readable manifests and never used for tuning.
+    phase: pre_run
+    status: PASS_ENGINEERING
+    implemented_evidence:
+      - docs/implementation_contract.md
+      - src/vipibench/dataset.py
+      - src/vipibench/exec_splits.py
+      - src/vipibench/compiler.py
+      - tests/test_exec_splits.py
+      - tests/test_confirmatory_holdout.py
+    required_runtime_artifacts:
+      - data/splits/frozen/holdout_manifest.json
+      - data/splits/confirmatory_final/manifest.json
+    blocked_by: []
+    verifier: vipibench audit-exec-splits data/splits/frozen
+
+  - id: DATA-007
+    proposal_section: "6"
+    requirement: Labels by construction and executable outcomes are independently checked by schema, invariant, state-transition, tool-constraint, canary, and negative-control tests; no LLM judge is the sole oracle.
+    phase: pre_run
+    status: PASS_ENGINEERING
+    implemented_evidence:
+      - docs/implementation_contract.md
+      - docs/research/zero_touch_a100_thesis_2026-07-16/claim_ledger.md
+      - src/vipibench/episode.py
+      - src/vipibench/oracle.py
+      - src/vipibench/oracle_verification.py
+      - tests/test_episode_schema.py
+      - tests/test_exec_oracle.py
+      - docs/implementation/exec_core_2026-07-16/protocol.md
+    required_runtime_artifacts:
+      - outputs/exec_oracle_verification.json
+    blocked_by: []
+    verifier: vipibench verify-exec-oracle --output outputs/exec_oracle_verification.json
+
+  - id: DATA-008
+    proposal_section: "6"
+    requirement: Role-label, template-label, generator-label, and author/style shortcuts are audited before interpreting H1 or H2.
+    phase: pre_run
+    status: PASS_ENGINEERING
+    implemented_evidence:
+      - src/vipibench/dataset.py
+      - src/vipibench/detector_view.py
+      - src/vipibench/shortcut_audit.py
+      - docs/implementation_contract.md
+      - tests/test_shortcut_audit.py
+    required_runtime_artifacts:
+      - outputs/role_label_leakage.json
+      - outputs/template_generator_leakage.json
+    blocked_by: []
+    verifier: vipibench audit-exec-shortcuts data/processed/vipibench_exec.jsonl
+
+  - id: MODEL-001
+    proposal_section: "7"
+    requirement: The project implements TF-IDF and a pinned public detector on both benchmark tracks, plus mDeBERTa text-only, role-only, and text-plus-role/provenance modes.
+    phase: pre_run
+    status: PASS_ENGINEERING
+    implemented_evidence:
+      - src/vipibench/modeling.py
+      - src/vipibench/transformer_runner.py
+      - configs/models/tfidf_core.yaml
+      - configs/models/public_detector.yaml
+      - configs/models/mdeberta_core.yaml
+    required_runtime_artifacts: []
+    blocked_by: []
+    verifier: vipibench validate-run-protocol
+
+  - id: MODEL-002
+    proposal_section: "7"
+    requirement: The three main mDeBERTa modes use identical splits and budgets with locked seeds 17, 29, and 43.
+    phase: pre_run
+    status: PASS_ENGINEERING
+    implemented_evidence:
+      - configs/models/mdeberta_core.yaml
+      - src/vipibench/run_protocol.py
+      - tests/test_protocol_and_checkpoint.py
+    required_runtime_artifacts: []
+    blocked_by: []
+    verifier: vipibench validate-run-protocol
+
+  - id: MODEL-003
+    proposal_section: "7"
+    requirement: Model, tokenizer, generator, configuration revisions, checkpoint stages, and reproducible commands are pinned and recorded.
+    phase: pre_run
+    status: PASS_ENGINEERING
+    implemented_evidence:
+      - src/vipibench/checkpoint.py
+      - src/vipibench/durable_snapshot.py
+      - src/vipibench/environment_compatibility.py
+      - configs/generation/adaptive_generator.yaml
+      - configs/models/target_agent.yaml
+      - notebooks/experiment_workflow.ipynb
+      - notebooks/confirmatory_run.ipynb
+      - tests/test_durable_snapshot.py
+    required_runtime_artifacts: []
+    blocked_by: []
+    verifier: vipibench verify-environment-compatibility --project-root .
+
+  - id: MODEL-004
+    proposal_section: "7"
+    requirement: Thresholds, calibration, early stopping, and model selection use development data only; frozen test data is never used for tuning.
+    phase: pre_run
+    status: PASS_ENGINEERING
+    implemented_evidence:
+      - src/vipibench/metrics.py
+      - src/vipibench/run_protocol.py
+      - src/vipibench/transformer_runner.py
+      - configs/models/mdeberta_core.yaml
+    required_runtime_artifacts: []
+    blocked_by: []
+    verifier: pytest tests/test_metrics.py tests/test_protocol_and_checkpoint.py tests/test_transformer_selection.py
+
+  - id: EXPERIMENT-001
+    proposal_section: "9"
+    requirement: Evaluation reports fixed-FPR detector metrics and system security, clean utility, review burden, latency, compute-hours, and compute-normalized adaptive discovery.
+    phase: pre_run
+    status: PASS_ENGINEERING
+    implemented_evidence:
+      - src/vipibench/metrics.py
+      - src/vipibench/resources.py
+      - src/vipibench/experiment_protocol.py
+      - configs/experiments/exec_system.yaml
+      - tests/test_experiment_protocol.py
+      - docs/implementation_contract.md
+    required_runtime_artifacts:
+      - outputs/experiment_protocol_validation.json
+    blocked_by: []
+    verifier: vipibench validate-exec-experiment-protocol --project-root . --config configs/experiments/exec_system.yaml --output outputs/experiment_protocol_validation.json
+
+  - id: EXPERIMENT-002
+    proposal_section: "9"
+    requirement: The optional 0/1K/5K/10K secondary scaling protocol follows a locked stopping rule without changing the frozen core or provenance-contrast dev/test partitions.
+    phase: pre_run
+    status: PASS_ENGINEERING
+    implemented_evidence:
+      - configs/models/mdeberta_core.yaml
+      - configs/experiments/sample_size_scaling.yaml
+      - src/vipibench/sample_size.py
+    required_runtime_artifacts: []
+    blocked_by: []
+    verifier: vipibench validate-sample-size-protocol
+
+  - id: EXPERIMENT-003
+    proposal_section: "9"
+    requirement: Uncertainty is paired by provenance pair for RQ1, grouped by template family for core metrics, and paired across system arms rather than treating generated variants as independent observations.
+    phase: pre_run
+    status: PASS_ENGINEERING
+    implemented_evidence:
+      - src/vipibench/metrics.py
+      - src/vipibench/ablation_analysis.py
+      - src/vipibench/analysis_protocol.py
+      - src/vipibench/precision_scout.py
+      - configs/experiments/confirmatory_analysis.yaml
+      - configs/models/mdeberta_bf16_scout.yaml
+      - docs/implementation_contract.md
+      - docs/protocols/a100_efficiency_analysis_engine_2026-08-09.md
+      - tests/test_metrics.py
+      - tests/test_analysis_protocol.py
+      - tests/test_precision_scout.py
+    required_runtime_artifacts:
+      - outputs/confirmatory_analysis_validation.json
+    blocked_by: []
+    verifier: pytest tests/test_metrics.py tests/test_ablation_analysis.py tests/test_four_arm_predictions.py
+
+  - id: EXPERIMENT-004
+    proposal_section: "9"
+    requirement: Every confirmatory table and thesis claim is regenerated from retained raw predictions, trajectories, thresholds, configs, and run manifests.
+    phase: post_run
+    status: DEFERRED_POST_RUN
+    implemented_evidence:
+      - docs/implementation_contract.md
+      - reports/thesis/chapter_4.md
+    required_runtime_artifacts:
+      - outputs/latest/raw_predictions_manifest.json
+      - outputs/latest/raw_trajectories_manifest.json
+    blocked_by: []
+    verifier: vipibench audit-postrun --project-root . --output-root outputs/latest
+
+  - id: GUARDRAIL-001
+    proposal_section: "7"
+    requirement: PolicyGate enforces authorized action, capability, tool-argument, provenance, and detector-threshold invariants independently of free-form LLM judgment.
+    phase: pre_run
+    status: PASS_ENGINEERING
+    implemented_evidence:
+      - docs/implementation_contract.md
+      - src/vipibench/policy_gate.py
+      - tests/test_policy_gate.py
+    required_runtime_artifacts:
+      - outputs/policy_gate_verification.json
+    blocked_by: []
+    verifier: vipibench verify-policy-gate --output outputs/policy_gate_verification.json
+
+  - id: GUARDRAIL-002
+    proposal_section: "9"
+    requirement: Identical frozen episodes run under none, detector-only, policy-only, and hybrid with paired evidence and safe failure handling.
+    phase: pre_run
+    status: PASS_ENGINEERING
+    implemented_evidence:
+      - docs/implementation_contract.md
+      - src/vipibench/system_runner.py
+      - tests/test_four_arm_exec.py
+    required_runtime_artifacts:
+      - outputs/four_arm_fixture_verification.json
+    blocked_by: []
+    verifier: vipibench verify-four-arm-fixture data/splits/frozen/test.jsonl --output outputs/four_arm_fixture_verification.json
+
+  - id: GUARDRAIL-003
+    proposal_section: "9"
+    requirement: Static four-arm evaluation and equal-query static-versus-feedback-guided attack search use observed oracle-blind target trajectories, fixed source hashes, and paired security-utility evidence.
+    phase: post_run
+    status: DEFERRED_POST_RUN
+    implemented_evidence:
+      - docs/implementation_contract.md
+      - configs/experiments/exec_system.yaml
+      - src/vipibench/experiment_protocol.py
+      - src/vipibench/agent_trajectory.py
+      - src/vipibench/adaptive_runner.py
+      - tests/test_experiment_protocol.py
+    required_runtime_artifacts:
+      - data/case_study/exec_observed.jsonl
+      - outputs/latest/attack_search_evaluation.json
+    blocked_by: []
+    verifier: vipibench audit-postrun --project-root . --output-root outputs/latest
+
+  - id: GUARDRAIL-004
+    proposal_section: "15"
+    requirement: Logs and committed artifacts exclude credentials, system prompts, direct identifiers, and unnecessary sensitive payloads; all attacks remain sandboxed.
+    phase: pre_run
+    status: PASS_ENGINEERING
+    implemented_evidence:
+      - src/vipibench/security.py
+      - docs/threat_model.md
+      - tests/test_security.py
+    required_runtime_artifacts: []
+    blocked_by: []
+    verifier: vipibench scan-secrets --root . --output outputs/secret_scan.json
+
+  - id: COMPUTE-001
+    proposal_section: "8"
+    requirement: The full workload uses one strict NVIDIA A100 80 GB runtime from preflight through finalization, observing a registered exact device name with compute capability 8.0, 70-82 GiB memory, BF16 tensor execution, sufficient RAM/disk, CUDA-only model placement, synchronized measured throughput, hash-bound checkpoint/resume, and no CPU or smaller-accelerator fallback.
+    phase: pre_run
+    status: PENDING_EXTERNAL
+    implemented_evidence:
+      - configs/profiles/accelerator_80gb.yaml
+      - configs/generation/adaptive_generator.yaml
+      - configs/models/target_agent.yaml
+      - src/vipibench/runtime_capacity.py
+      - src/vipibench/transformer_runner.py
+      - src/vipibench/durable_snapshot.py
+      - notebooks/experiment_workflow.ipynb
+      - notebooks/confirmatory_run.ipynb
+      - tests/test_runtime_capacity.py
+      - tests/test_transformer_numerics.py
+      - tests/test_notebook.py
+      - tests/test_bundle_bootstrap.py
+    required_runtime_artifacts:
+      - outputs/resource_measurement.json
+    blocked_by:
+      - resource_measurement
+    verifier: vipibench measure-resources --dataset data/processed/vipibench_exec.jsonl --output outputs/resource_measurement.json
+
+  - id: GOVERNANCE-001
+    proposal_section: "15"
+    requirement: Internal training, paid compute, upload, and release are separate hash-bound decisions; public release defaults to false.
+    phase: pre_run
+    status: PASS_ENGINEERING
+    implemented_evidence:
+      - data/release_decision.yaml
+      - docs/implementation_contract.md
+      - src/vipibench/provenance.py
+      - tests/test_bundle_bootstrap.py
+      - tests/test_provenance.py
+    required_runtime_artifacts:
+      - outputs/training_authorization_verification.json
+    blocked_by: []
+    verifier: vipibench verify-training-authorization --project-root . --output outputs/training_authorization_verification.json
+
+  - id: REPORT-001
+    proposal_section: "11"
+    requirement: The four-chapter report links every result claim to raw evidence, reports negative results and limitations, and contains no invented opening or conclusion results.
+    phase: post_run
+    status: DEFERRED_POST_RUN
+    implemented_evidence:
+      - reports/thesis/README.md
+      - reports/thesis/chapter_1.md
+      - reports/thesis/chapter_2.md
+      - reports/thesis/chapter_3.md
+      - reports/thesis/chapter_4.md
+    required_runtime_artifacts:
+      - reports/thesis/final_claim_audit.json
+    blocked_by: []
+    verifier: vipibench audit-postrun --project-root . --output-root outputs/latest

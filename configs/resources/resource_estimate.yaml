@@ -1,0 +1,70 @@
+schema_version: "2.0.0"
+status: prelaunch_planning_envelope
+hardware_contract_profile: configs/profiles/accelerator_80gb.yaml
+hardware_minimums:
+  observed_device_memory_gib: 70
+  system_ram_gib: 40
+  free_disk_gib_per_distinct_storage_root: 80
+  target_memory_utilization: 0.88
+model_storage:
+  target_agent:
+    model_id: Qwen/Qwen3-8B
+    revision: b968826d9c46dd6066d109eabc6255188de91218
+    safetensors_shard_count: 5
+    safetensors_bytes: 16381516776
+    safetensors_gib: 15.256
+    source: https://huggingface.co/Qwen/Qwen3-8B/tree/b968826d9c46dd6066d109eabc6255188de91218
+  attack_generator:
+    model_id: Qwen/Qwen3-4B
+    revision: 1cfa9a7208912126459214e8b04321603b3df60c
+    safetensors_shard_count: 3
+    safetensors_bytes: 8044982000
+    safetensors_gib: 7.492
+    source: https://huggingface.co/Qwen/Qwen3-4B/tree/1cfa9a7208912126459214e8b04321603b3df60c
+  maximum_concurrent_large_weight_sets: 1
+  ephemeral_cache_rotation_required: true
+  cache_cleanup_requires_ownership_marker: true
+workload:
+  encoder_runs: 9
+  encoder_max_epochs_per_run: 5
+  static_test_episodes: 480
+  static_system_arms: 4
+  static_evaluation_trajectories: 1920
+  attack_base_episodes: 240
+  attack_strategies: 2
+  candidates_per_strategy: 10
+  generated_attack_candidates: 4800
+  defended_attack_arms: 3
+  attack_evaluation_trajectories: 14400
+  maximum_confirmatory_trajectories: 16320
+generation_upper_bound:
+  attack_generator_calls: 4800
+  attack_generator_max_new_tokens: 384
+  attack_generator_tokens: 1843200
+  target_agent_calls: 5280
+  target_agent_max_new_tokens: 4096
+  target_agent_tokens: 21626880
+  total_generated_tokens: 23470080
+timing_estimate:
+  basis: generation_token_upper_bound_not_observed_throughput
+  aggregate_generation_throughput_scenarios:
+    - tokens_per_second: 50
+      generation_only_hours: 130.389333
+    - tokens_per_second: 100
+      generation_only_hours: 65.194667
+    - tokens_per_second: 200
+      generation_only_hours: 32.597333
+  overhead_multiplier_assumption: 1.25
+  operational_planning_window_hours: [40, 163]
+  status: unverified_until_live_capacity_and_warmup_measurement
+live_measurement_gate:
+  required_before_confirmatory_workload: true
+  required_artifact: outputs/resource_measurement.json
+  recompute_eta_from_observed_throughput: true
+  abort_on_capacity_failure: true
+claim_boundary: >-
+  Model-shard bytes and protocol counts are pinned or deterministic. The 40–163 hour window is a
+  planning envelope derived from explicit 50–200 generated-token/s scenarios plus overhead; it is
+  not an observed accelerator duration, cost, throughput, or availability claim. The envelope
+  assumes every target call emits the full 4096-token ceiling, which no observed run approaches,
+  so it bounds the worst case rather than predicting the expected duration.

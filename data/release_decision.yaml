@@ -1,0 +1,76 @@
+schema_version: "3.0.0"
+decision: APPROVED_INTERNAL_PREPARATION
+status: approved_internal_preparation
+decided_at: "2026-07-16"
+authorization_scope: internal_research_preparation_only
+owner: workspace_owner
+training_use_authorized: true
+public_release_authorized: false
+upload_authorized: false
+paid_compute_authorized: false
+publication_authorized: false
+production_deployment_authorized: false
+bindings:
+  executable_benchmark:
+    path: data/processed/vipibench_exec.jsonl
+    sha256: 95A5DD49B61836D53B42C2A4C1C41025279A6A811C87064F4D6570346C00373E
+  split_manifest:
+    path: data/splits/frozen/split_manifest.json
+    sha256: F76015C1860BF5FD5E93A31041A6E137C816C7C874EFA99B74C6D34F6989E6DA
+  template_manifest:
+    path: data/processed/vipibench_exec_templates.jsonl
+    sha256: 5DF0AA96C1B430FF29D8DE6B09019711D8E44123A08478F6CB56E93F5123BA49
+  provenance_ledger:
+    path: data/provenance_ledger.yaml
+    sha256: 5B627640447E6C93D694732899535607C4EA4D0B15E99953BF89309B5E86E61C
+  oracle_verification:
+    path: outputs/exec_oracle_verification.json
+    sha256: 3F0C06844B26FE77799359A26BD4E647DBD97307042AB07DB2801582D47762F8
+  data_card:
+    path: docs/data_card.md
+    sha256: 24EB8096936A52CFED857C1667D526FCAF845A9237FC9177F87AC8863F16E127
+  secret_scan:
+    path: outputs/secret_scan.json
+    sha256: 494D87418D24241783B57619D93650EA1978AA7277931FB867ABF5905FC9B1C1
+  experiment_protocol:
+    path: outputs/experiment_protocol_validation.json
+    sha256: 2827D858B019DCF91333DD67F67AA0B56C72455C3953563112E435AE1CC93054
+  provenance_contrast:
+    path: data/processed/provenance_contrast.jsonl
+    sha256: 04D1D4564BA682697DC566C0A7933161A04520F0DC1D24540ECF765F4D134761
+  provenance_contrast_manifest:
+    path: outputs/provenance_contrast_manifest.json
+    sha256: 07B250DC24A7E1AD8699AADD9AFEE52673B09BC6DDFFDBEF45F25FD1247EC7EF
+  provenance_contrast_audit:
+    path: outputs/provenance_contrast_audit.json
+    sha256: 0236C349AAFB19970C36460A7387CC5090835C87AB673A3C19C56A43F92DA212
+  confirmatory_holdout_manifest:
+    path: data/splits/confirmatory_final/manifest.json
+    sha256: 0D6D62B875CF72F80FE3440130A64320558964335BC90780C5CA5BAC6CE3AB32
+  confirmatory_holdout_test:
+    path: data/splits/confirmatory_final/test.jsonl
+    sha256: 7604888253F4A449E91F25755A6956CF86DC21FC903F3D2BC01036809E6B3A9A
+  confirmatory_holdout_templates:
+    path: data/splits/confirmatory_final/templates.jsonl
+    sha256: 297D7AD9D7B2A9585DB1C4D353A3FC274E76082DCDD0DDA166BA86E6ED89D694
+  confirmatory_analysis:
+    path: outputs/confirmatory_analysis_validation.json
+    sha256: 53BA7F322D2566D6778DFF258E92794FDE3883CC418501255F796F4E8CB91CDE
+satisfied_for_internal_preparation:
+  - immutable_template_generator_and_dataset_revisions
+  - executable_oracle_verification
+  - current_benchmark_provenance_and_license_review
+  - pii_and_secret_pattern_scan
+  - internal_data_card
+  - frozen_experiment_budget_and_hashes
+  - sealed_confirmatory_surface_realization_holdout
+  - conservative_pretest_mde_and_multiplicity_lock
+remaining_external_authorizations:
+  - paid_compute_launch
+  - upload
+  - public_release
+  - publication
+claim_boundary: >-
+  This decision permits internal research preparation and later training only after a separate
+  paid-compute launch confirmation. It does not authorize paid compute, upload, release, publication,
+  or production deployment.

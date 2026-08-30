@@ -1,0 +1,632 @@
+{
+  "$defs": {
+    "ArgumentRule": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "$ref": "#/$defs/ValueKind"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "allowed_values": {
+          "items": {},
+          "title": "Allowed Values",
+          "type": "array"
+        },
+        "pattern": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pattern"
+        },
+        "minimum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum"
+        },
+        "maximum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum"
+        },
+        "min_length": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Min Length"
+        },
+        "max_length": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Length"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "title": "ArgumentRule",
+      "type": "object"
+    },
+    "AuthorizedAction": {
+      "additionalProperties": false,
+      "properties": {
+        "action_id": {
+          "pattern": "^[a-z][a-z0-9_-]{1,63}$",
+          "title": "Action Id",
+          "type": "string"
+        },
+        "tool": {
+          "pattern": "^[a-z][a-z0-9_]{1,63}$",
+          "title": "Tool",
+          "type": "string"
+        },
+        "argument_rules": {
+          "additionalProperties": {
+            "$ref": "#/$defs/ArgumentRule"
+          },
+          "title": "Argument Rules",
+          "type": "object"
+        },
+        "trusted_source": {
+          "const": "trusted_user_goal",
+          "default": "trusted_user_goal",
+          "title": "Trusted Source",
+          "type": "string"
+        },
+        "rationale": {
+          "minLength": 1,
+          "title": "Rationale",
+          "type": "string"
+        }
+      },
+      "required": [
+        "action_id",
+        "tool",
+        "argument_rules",
+        "rationale"
+      ],
+      "title": "AuthorizedAction",
+      "type": "object"
+    },
+    "ContextChunk": {
+      "additionalProperties": false,
+      "properties": {
+        "chunk_id": {
+          "pattern": "^[a-z][a-z0-9_-]{1,63}$",
+          "title": "Chunk Id",
+          "type": "string"
+        },
+        "role": {
+          "$ref": "#/$defs/ContextRole"
+        },
+        "trust": {
+          "$ref": "#/$defs/TrustLevel"
+        },
+        "content": {
+          "minLength": 1,
+          "title": "Content",
+          "type": "string"
+        },
+        "content_sha256": {
+          "pattern": "^[A-F0-9]{64}$",
+          "title": "Content Sha256",
+          "type": "string"
+        },
+        "attack_intent": {
+          "default": false,
+          "title": "Attack Intent",
+          "type": "boolean"
+        },
+        "source_uri": {
+          "minLength": 1,
+          "title": "Source Uri",
+          "type": "string"
+        },
+        "source_version": {
+          "minLength": 1,
+          "title": "Source Version",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "chunk_id",
+        "role",
+        "trust",
+        "content",
+        "content_sha256",
+        "source_uri",
+        "source_version",
+        "license_id"
+      ],
+      "title": "ContextChunk",
+      "type": "object"
+    },
+    "ContextRole": {
+      "enum": [
+        "user",
+        "retrieved",
+        "tool"
+      ],
+      "title": "ContextRole",
+      "type": "string"
+    },
+    "EpisodeLabel": {
+      "enum": [
+        "injection",
+        "benign"
+      ],
+      "title": "EpisodeLabel",
+      "type": "string"
+    },
+    "EpisodeMetadata": {
+      "additionalProperties": false,
+      "properties": {
+        "family_id": {
+          "pattern": "^[a-z][a-z0-9_-]{1,63}$",
+          "title": "Family Id",
+          "type": "string"
+        },
+        "template_id": {
+          "pattern": "^[a-z][a-z0-9_-]{1,63}$",
+          "title": "Template Id",
+          "type": "string"
+        },
+        "seed_id": {
+          "minLength": 1,
+          "title": "Seed Id",
+          "type": "string"
+        },
+        "domain": {
+          "minLength": 1,
+          "title": "Domain",
+          "type": "string"
+        },
+        "language_form": {
+          "enum": [
+            "native_vi",
+            "translated_vi",
+            "unaccented_vi",
+            "code_mix"
+          ],
+          "title": "Language Form",
+          "type": "string"
+        },
+        "native_vietnamese": {
+          "title": "Native Vietnamese",
+          "type": "boolean"
+        },
+        "hard_negative": {
+          "default": false,
+          "title": "Hard Negative",
+          "type": "boolean"
+        },
+        "matched_pair_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Matched Pair Id"
+        },
+        "generator_id": {
+          "minLength": 1,
+          "title": "Generator Id",
+          "type": "string"
+        },
+        "generator_revision": {
+          "minLength": 1,
+          "title": "Generator Revision",
+          "type": "string"
+        },
+        "transformation_history": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Transformation History",
+          "type": "array"
+        },
+        "config_sha256": {
+          "pattern": "^[A-F0-9]{64}$",
+          "title": "Config Sha256",
+          "type": "string"
+        },
+        "template_sha256": {
+          "pattern": "^[A-F0-9]{64}$",
+          "title": "Template Sha256",
+          "type": "string"
+        },
+        "split": {
+          "default": "unassigned",
+          "enum": [
+            "unassigned",
+            "train",
+            "dev",
+            "test"
+          ],
+          "title": "Split",
+          "type": "string"
+        }
+      },
+      "required": [
+        "family_id",
+        "template_id",
+        "seed_id",
+        "domain",
+        "language_form",
+        "native_vietnamese",
+        "generator_id",
+        "generator_revision",
+        "transformation_history",
+        "config_sha256",
+        "template_sha256"
+      ],
+      "title": "EpisodeMetadata",
+      "type": "object"
+    },
+    "OutcomePredicate": {
+      "additionalProperties": false,
+      "properties": {
+        "predicate_id": {
+          "pattern": "^[a-z][a-z0-9_-]{1,63}$",
+          "title": "Predicate Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/PredicateKind"
+        },
+        "path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Path"
+        },
+        "expected": {
+          "default": null,
+          "title": "Expected"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Text"
+        },
+        "tool": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool"
+        },
+        "case_sensitive": {
+          "default": false,
+          "title": "Case Sensitive",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "predicate_id",
+        "kind"
+      ],
+      "title": "OutcomePredicate",
+      "type": "object"
+    },
+    "PredicateKind": {
+      "enum": [
+        "state_equals",
+        "state_exists",
+        "state_absent",
+        "answer_contains",
+        "answer_not_contains",
+        "tool_called",
+        "tool_not_called"
+      ],
+      "title": "PredicateKind",
+      "type": "string"
+    },
+    "SandboxToolSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "pattern": "^[a-z][a-z0-9_]{1,63}$",
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        },
+        "operation": {
+          "$ref": "#/$defs/ToolOperation"
+        },
+        "consequential": {
+          "title": "Consequential",
+          "type": "boolean"
+        },
+        "parameters": {
+          "additionalProperties": {
+            "$ref": "#/$defs/ArgumentRule"
+          },
+          "title": "Parameters",
+          "type": "object"
+        },
+        "allow_extra_arguments": {
+          "const": false,
+          "default": false,
+          "title": "Allow Extra Arguments",
+          "type": "boolean"
+        },
+        "path_argument": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Path Argument"
+        },
+        "value_argument": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value Argument"
+        },
+        "allowed_path_prefixes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Allowed Path Prefixes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "operation",
+        "consequential",
+        "parameters"
+      ],
+      "title": "SandboxToolSpec",
+      "type": "object"
+    },
+    "SecurityOracleSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "invariants": {
+          "items": {
+            "$ref": "#/$defs/OutcomePredicate"
+          },
+          "title": "Invariants",
+          "type": "array"
+        },
+        "canaries": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Canaries",
+          "type": "array"
+        },
+        "attack_objectives": {
+          "items": {
+            "$ref": "#/$defs/OutcomePredicate"
+          },
+          "title": "Attack Objectives",
+          "type": "array"
+        }
+      },
+      "title": "SecurityOracleSpec",
+      "type": "object"
+    },
+    "ToolOperation": {
+      "enum": [
+        "read_state",
+        "set_state",
+        "append_state",
+        "delete_state",
+        "noop"
+      ],
+      "title": "ToolOperation",
+      "type": "string"
+    },
+    "TrustLevel": {
+      "enum": [
+        "trusted",
+        "untrusted"
+      ],
+      "title": "TrustLevel",
+      "type": "string"
+    },
+    "UtilityOracleSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "expected_outcomes": {
+          "items": {
+            "$ref": "#/$defs/OutcomePredicate"
+          },
+          "minItems": 1,
+          "title": "Expected Outcomes",
+          "type": "array"
+        },
+        "require_all": {
+          "const": true,
+          "default": true,
+          "title": "Require All",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "expected_outcomes"
+      ],
+      "title": "UtilityOracleSpec",
+      "type": "object"
+    },
+    "ValueKind": {
+      "enum": [
+        "string",
+        "integer",
+        "number",
+        "boolean",
+        "enum",
+        "object",
+        "array"
+      ],
+      "title": "ValueKind",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "episode_id": {
+      "pattern": "^[a-z][a-z0-9_-]{1,95}$",
+      "title": "Episode Id",
+      "type": "string"
+    },
+    "label": {
+      "$ref": "#/$defs/EpisodeLabel"
+    },
+    "trusted_user_goal": {
+      "minLength": 1,
+      "title": "Trusted User Goal",
+      "type": "string"
+    },
+    "initial_state": {
+      "additionalProperties": true,
+      "title": "Initial State",
+      "type": "object"
+    },
+    "tools": {
+      "items": {
+        "$ref": "#/$defs/SandboxToolSpec"
+      },
+      "minItems": 1,
+      "title": "Tools",
+      "type": "array"
+    },
+    "authorized_actions": {
+      "items": {
+        "$ref": "#/$defs/AuthorizedAction"
+      },
+      "title": "Authorized Actions",
+      "type": "array"
+    },
+    "context": {
+      "items": {
+        "$ref": "#/$defs/ContextChunk"
+      },
+      "minItems": 1,
+      "title": "Context",
+      "type": "array"
+    },
+    "security": {
+      "$ref": "#/$defs/SecurityOracleSpec"
+    },
+    "utility": {
+      "$ref": "#/$defs/UtilityOracleSpec"
+    },
+    "metadata": {
+      "$ref": "#/$defs/EpisodeMetadata"
+    },
+    "content_sha256": {
+      "pattern": "^[A-F0-9]{64}$",
+      "title": "Content Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "episode_id",
+    "label",
+    "trusted_user_goal",
+    "initial_state",
+    "tools",
+    "authorized_actions",
+    "context",
+    "security",
+    "utility",
+    "metadata",
+    "content_sha256"
+  ],
+  "title": "ExecutableEpisode",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/vipibench/executable-episode.schema.json"
+}

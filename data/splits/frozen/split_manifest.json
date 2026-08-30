@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "status": "PASS",
+  "frozen": true,
+  "dataset_path": "data\\processed\\vipibench_exec.jsonl",
+  "dataset_sha256": "95A5DD49B61836D53B42C2A4C1C41025279A6A811C87064F4D6570346C00373E",
+  "config_path": "configs\\benchmark\\exec_catalog.yaml",
+  "config_sha256": "7B593E8C3C128148F9AF91EAB36BB09E3F9FAFD05EA6961CA8D238071EECBBEB",
+  "assignment_source": "episode.metadata.split",
+  "family_split_counts": {
+    "train": 48,
+    "dev": 16,
+    "test": 16
+  },
+  "split_episode_counts": {
+    "train": 1440,
+    "dev": 480,
+    "test": 480
+  },
+  "split_hashes": {
+    "train": "833D508394B74207EF5523BAF85DA72720F23E509A5703AEE84A104F8CFD1AB3",
+    "dev": "AEE3AF7B0F0B3D71D14DA479F34E01107BD0EE3C78DEA6F293F4B41E8D64C546",
+    "test": "324E7B0F9EB2759A92ADCB36896BD29E9F6AAE55EDDF3E14C0FECA196019F710"
+  },
+  "test_episode_id_sha256": "9B8BF5ED079AFBA452E5E3AFC08140AC83B686BFB3F8EE02080D76CB851E93D2",
+  "test_split_sha256": "324E7B0F9EB2759A92ADCB36896BD29E9F6AAE55EDDF3E14C0FECA196019F710",
+  "split_audit_sha256": "596EF56A9AADAD5DA5B5D8A1CDA2DE05D01866A9B8F3660FD24430901DA62EB6",
+  "holdout_manifest_sha256": "9CDD79EACE0414FFEC1C4D7226066992129913FC13FD6F5A094926609A850ED4",
+  "tuning_prohibition": "Development data may tune thresholds; frozen test and alternate holdout folds may not."
+}

@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0.0",
+  "status": "locked_controller",
+  "execution_mode": "sequential_single_a100_80gb_runtime",
+  "stages": [
+    {
+      "id": "preflight",
+      "prerequisite": null,
+      "member_stage_ids": [],
+      "description": "Verify the isolated environment, launch package, authorization, durable output, and current NVIDIA A100-SXM4-80GB runtime."
+    },
+    {
+      "id": "data",
+      "prerequisite": "preflight",
+      "member_stage_ids": [
+        "compile-provenance-contrast",
+        "audit-provenance-contrast"
+      ],
+      "description": "Rebuild and audit the deterministic provenance-contrast input."
+    },
+    {
+      "id": "baselines",
+      "prerequisite": "data",
+      "member_stage_ids": [
+        "tfidf-baseline",
+        "public-detector-benchmark"
+      ],
+      "description": "Run the locked TF-IDF and public-detector baselines."
+    },
+    {
+      "id": "encoder",
+      "prerequisite": "baselines",
+      "member_stage_ids": [
+        "encoder-matrix"
+      ],
+      "description": "Run the checkpointed nine-run encoder development matrix, development-only selection, and accelerator-dependent test prediction."
+    },
+    {
+      "id": "core",
+      "prerequisite": "encoder",
+      "member_stage_ids": [
+        "core-target-trajectories",
+        "static-four-arm-evaluation"
+      ],
+      "description": "Execute the frozen core target trajectories and four-arm evaluation."
+    },
+    {
+      "id": "attack-generate",
+      "prerequisite": "core",
+      "member_stage_ids": [
+        "attack-candidate-generation"
+      ],
+      "description": "Generate and validate the bounded static and feedback-guided attack candidates."
+    },
+    {
+      "id": "attack-evaluate",
+      "prerequisite": "attack-generate",
+      "member_stage_ids": [
+        "attack-target-trajectories",
+        "consolidate-runtime-telemetry",
+        "attack-search-evaluation"
+      ],
+      "description": "Execute attack target trajectories, consolidate telemetry, and evaluate the search."
+    },
+    {
+      "id": "analysis",
+      "prerequisite": "attack-evaluate",
+      "member_stage_ids": [
+        "encoder-test-analysis",
+        "encoder-ablation-analysis",
+        "prepare-postrun-supporting-evidence",
+        "analyze-static-system",
+        "analyze-rq2-diagnostics",
+        "analyze-h3",
+        "analyze-adaptive-search"
+      ],
+      "description": "On the same strict A100 80 GB runtime, finish encoder uncertainty and ablation analysis, build supporting evidence, and run the locked confirmatory analyses."
+    },
+    {
+      "id": "finalize",
+      "prerequisite": "analysis",
+      "member_stage_ids": [
+        "write-postrun-run-context",
+        "build-postrun-raw-manifests",
+        "audit-postrun",
+        "finalize-confirmatory-run",
+        "materialize-report-assets"
+      ],
+      "description": "On the same strict A100 80 GB runtime, build raw manifests, audit the run, emit the terminal run manifest, and materialize report-ready figures only after acceptance."
+    }
+  ],
+  "claim_boundary": "The plan keeps frozen datasets, seeds, model settings, query budgets, estimands, and bootstrap iteration counts fixed. It requires one strict A100 80 GB runtime for all public stages and binds the deterministic analysis engine. Host-side statistics and file finalization remain CPU or I/O work inside that runtime; the plan does not guarantee background execution, full CUDA saturation, or empirical improvement."
+}

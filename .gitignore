@@ -1,0 +1,57 @@
+# Python environments, caches, and build products
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+coverage.xml
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# Notebook and editor state
+.ipynb_checkpoints/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Secrets and machine-local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Private inputs and ephemeral runtime areas
+private/
+artifacts/
+data/raw/
+data/cache/
+notebooks/executed/
+outputs/*
+!outputs/readiness_report.schema.json
+!outputs/prelaunch_readiness.schema.json
+!outputs/postrun_audit.schema.json
+docs/audits/
+docs/research/
+docs/operations/
+docs/implementation/**/source_pack.md
+docs/implementation/**/trace.json
+reports/
+artifact_manifest.json
+PROJECT_STATE.md
+DECISIONS.md
+EVIDENCE.md
+*.log
+*.tmp
+
+# OS metadata
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,17 @@
+name: accelerator_80gb
+mode: confirmatory
+compute_required: true
+accelerator_strict: true
+required_device_type: cuda
+required_device_names: [NVIDIA A100-SXM4-80GB, NVIDIA A100-PCIE-80GB, NVIDIA A100 80GB]
+required_compute_capability: "8.0"
+minimum_device_memory_gib: 70
+maximum_device_memory_gib: 82
+minimum_system_ram_gib: 40
+minimum_disk_free_gib: 80
+mixed_precision: false
+bf16_required: true
+tensor_probe_required: true
+allow_host_fallback: false
+target_memory_utilization: 0.88
+human_approval_required: true

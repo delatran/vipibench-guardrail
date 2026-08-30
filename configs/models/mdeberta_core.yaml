@@ -1,0 +1,40 @@
+run_name: mdeberta_core
+model_type: transformer_sequence_classifier
+runtime_profile: configs/profiles/accelerator_80gb.yaml
+backbone: microsoft/mdeberta-v3-base
+model_revision: a0484667b22365f84929a935b5e50a51f71f159d
+tokenizer_revision: a0484667b22365f84929a935b5e50a51f71f159d
+input_modes: [role_only, text_only, text_role]
+seeds: [17, 29, 43]
+max_length: 512
+learning_rate: 2.0e-5
+epochs: 5
+effective_train_batch_size: 64
+batch_candidates: [16, 32, 64, 128]
+gradient_checkpointing_options: [false, true]
+gradient_checkpointing_use_reentrant: false
+target_memory_utilization: 0.88
+mixed_precision: fp32
+optimizer: adamw_torch
+max_grad_norm: 1.0
+numerics_policy: fail_fast_finite
+numerics_canary_optimizer_steps: 2
+capacity_probe_input_mode: text_role
+capacity_warmup_optimizer_steps: 2
+capacity_measurement_optimizer_steps: 5
+dataloader_worker_candidates: [2, 4, 8]
+dataloader_worker_warmup_batches: 2
+dataloader_worker_measurement_batches: 8
+dataloader_worker_repeats: 2
+dataloader_persistent_workers: true
+dataloader_prefetch_factor: 2
+final_holdout_feedback_allowed: false
+early_stopping_metric: dev_auprc
+early_stopping_patience: 2
+early_stopping_threshold: 0.001
+threshold_source: dev_only
+primary_fpr: 0.05
+secondary_fpr: 0.01
+status: locked_protocol
+system_input_mode: text_role
+contrast_dataset: data/processed/provenance_contrast.jsonl

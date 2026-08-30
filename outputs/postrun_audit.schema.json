@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/vipibench/postrun-audit.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "errors",
+    "project_root",
+    "output_root",
+    "runtime_source_fingerprint",
+    "checks",
+    "raw_artifact_manifests",
+    "artifact_sha256",
+    "fixture_only",
+    "dispositions",
+    "research_evidence_eligible",
+    "final_claim_audit_created",
+    "final_claim_audit_sha256",
+    "final_claim_audit_preimage_sha256",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "status": {"enum": ["PASS", "FAIL"]},
+    "errors": {"type": "array", "items": {"type": "string"}},
+    "project_root": {"type": "string", "minLength": 1},
+    "output_root": {"type": "string", "minLength": 1},
+    "runtime_source_fingerprint": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "status", "evidence"],
+        "properties": {
+          "name": {"type": "string"},
+          "status": {"enum": ["PASS", "FAIL"]}
+        },
+        "additionalProperties": true
+      }
+    },
+    "raw_artifact_manifests": {"type": "object"},
+    "artifact_sha256": {"type": "object"},
+    "fixture_only": {"type": "boolean"},
+    "dispositions": {"type": "object"},
+    "research_evidence_eligible": {"type": "boolean"},
+    "final_claim_audit_created": {"type": "boolean"},
+    "final_claim_audit_sha256": {"type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"},
+    "final_claim_audit_preimage_sha256": {"type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"},
+    "claim_boundary": {"type": "string", "minLength": 1}
+  }
+}

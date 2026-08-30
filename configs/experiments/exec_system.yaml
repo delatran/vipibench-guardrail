@@ -1,0 +1,87 @@
+schema_version: "3.0.0"
+status: locked_protocol
+confirmatory_frozen: true
+test_dataset:
+  path: data/splits/confirmatory_final/test.jsonl
+  episode_count: 480
+  injection_episode_count: 240
+  benign_episode_count: 240
+system_arms: [none, detector_only, policy_only, hybrid]
+static_evaluation:
+  episodes: 480
+  arms: [none, detector_only, policy_only, hybrid]
+  observed_target_trajectories_required: true
+  trajectories: 1920
+attack_search_evaluation:
+  episode_scope: injection_only
+  episodes: 240
+  strategies: [static_sampling, feedback_guided]
+  queries_per_strategy: 10
+  defended_arms: [detector_only, policy_only, hybrid]
+  execute_all_candidates: true
+  pass_definition: any_oracle_verified_attack_success_within_10
+  paired_comparison: feedback_guided_minus_static_sampling
+  feedback_signal: bound_detector_score
+  trajectories: 14400
+  root_seed: 20260716
+  candidate_seed_derivation: sha256_root_seed_strategy_round_batch
+maximum_confirmatory_trajectories: 16320
+threshold_source: dev_only
+paired_group_key: episode
+confidence_level: 0.95
+system_metrics:
+  - attack_success
+  - containment
+  - clean_task_utility
+  - false_block
+  - review_rate
+  - latency_p50
+  - latency_p95
+  - compute_hours
+  - compute_normalized_failure_discovery
+bindings:
+  test_dataset:
+    path: data/splits/confirmatory_final/test.jsonl
+    sha256: 7604888253F4A449E91F25755A6956CF86DC21FC903F3D2BC01036809E6B3A9A
+  split_manifest:
+    path: data/splits/confirmatory_final/manifest.json
+    sha256: 0D6D62B875CF72F80FE3440130A64320558964335BC90780C5CA5BAC6CE3AB32
+  confirmatory_analysis_protocol:
+    path: configs/experiments/confirmatory_analysis.yaml
+    sha256: DEBC96430E423472993BFCF944675758CA1A1A60FEF7B986C670276543BDB408
+  provenance_contrast_config:
+    path: configs/benchmark/provenance_contrast.yaml
+    sha256: 269D084279AE591169D48271B0EAA59D69F807943BCA10C5F11BC5588830E178
+  target_agent_config:
+    path: configs/models/target_agent.yaml
+    sha256: 38B5A599A67D3AE2431F634B598FC7A90A6739D2B19B1A8619D1DCAA0D42C604
+  attack_generator_config:
+    path: configs/generation/adaptive_generator.yaml
+    sha256: 85817E1CBB190A31BEC585E8B52071AFD197FCE1DDC60B326E7F4C37919BED85
+  detector_config:
+    path: configs/models/mdeberta_core.yaml
+    sha256: C630162DDEDB61E045E3EE3A9753F98656643FC4BD1B30E24BFE448AE0F6FDA2
+  policy_gate:
+    path: src/vipibench/policy_gate.py
+    sha256: 7B9D9A14E6AC8043739822146E6F0861FF86CF5E3F8C8CFBA21727CA7B16931B
+  system_runner:
+    path: src/vipibench/system_runner.py
+    sha256: 5F2A529910AB2C68D41B073AD4CCA87A28C75C5CD5DF4ADD7606B6BE7078629C
+  agent_trajectory:
+    path: src/vipibench/agent_trajectory.py
+    sha256: 767617DC99738BB394FD824F488D6930007E5788E1A2F051FBA5D762A40361A3
+  adaptive_runner:
+    path: src/vipibench/adaptive_runner.py
+    sha256: C80935399D3937EC0B2361CD334B93F905341A43BF2875607E10ED2C09B30CCC
+  target_runner:
+    path: src/vipibench/target_runner.py
+    sha256: F62CC0E89FA1C4F273574CF25FA65DDFC3683051175855587C923E13B83EF54C
+  transformer_runner:
+    path: src/vipibench/transformer_runner.py
+    sha256: 5A3EC912991D932841DF29C0BA766E49020E1EEC17535FC41637409468AEC869
+target_model_revision: b968826d9c46dd6066d109eabc6255188de91218
+attack_generator_revision: 1cfa9a7208912126459214e8b04321603b3df60c
+claim_boundary: >-
+  PASS locks budgets, source bindings, equal-query comparisons, and observed-trajectory
+  requirements. It does not prove hardware allocation, model quality, attack effectiveness, or
+  research hypotheses.

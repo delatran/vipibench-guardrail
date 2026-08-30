@@ -1,0 +1,8 @@
+name: analysis_cpu
+mode: confirmatory_analysis
+compute_required: false
+require_no_accelerator: true
+minimum_system_ram_gib: 10
+minimum_disk_free_gib: 20
+accelerator_work_allowed: false
+allow_accelerator_substitution: false

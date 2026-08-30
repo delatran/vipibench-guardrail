@@ -1,0 +1,197 @@
+{
+  "schema_version": "1.0.0",
+  "status": "PASS",
+  "errors": [],
+  "dataset_sha256": "95A5DD49B61836D53B42C2A4C1C41025279A6A811C87064F4D6570346C00373E",
+  "primary_family_holdout": {
+    "train": [
+      "customer_support-developer_impersonation",
+      "customer_support-direct_override",
+      "customer_support-encoded_directive",
+      "customer_support-html_comment",
+      "customer_support-markdown_hidden",
+      "customer_support-multilingual_switch",
+      "customer_support-prompt_exfiltration",
+      "customer_support-quoted_instruction",
+      "customer_support-refusal_suppression",
+      "customer_support-role_confusion",
+      "customer_support-system_impersonation",
+      "customer_support-tool_coercion",
+      "document_assistant-developer_impersonation",
+      "document_assistant-direct_override",
+      "document_assistant-encoded_directive",
+      "document_assistant-html_comment",
+      "document_assistant-markdown_hidden",
+      "document_assistant-multilingual_switch",
+      "document_assistant-prompt_exfiltration",
+      "document_assistant-quoted_instruction",
+      "document_assistant-refusal_suppression",
+      "document_assistant-role_confusion",
+      "document_assistant-system_impersonation",
+      "document_assistant-tool_coercion",
+      "email_assistant-developer_impersonation",
+      "email_assistant-direct_override",
+      "email_assistant-encoded_directive",
+      "email_assistant-html_comment",
+      "email_assistant-markdown_hidden",
+      "email_assistant-multilingual_switch",
+      "email_assistant-prompt_exfiltration",
+      "email_assistant-quoted_instruction",
+      "email_assistant-refusal_suppression",
+      "email_assistant-role_confusion",
+      "email_assistant-system_impersonation",
+      "email_assistant-tool_coercion",
+      "rag_question_answering-developer_impersonation",
+      "rag_question_answering-direct_override",
+      "rag_question_answering-encoded_directive",
+      "rag_question_answering-html_comment",
+      "rag_question_answering-markdown_hidden",
+      "rag_question_answering-multilingual_switch",
+      "rag_question_answering-prompt_exfiltration",
+      "rag_question_answering-quoted_instruction",
+      "rag_question_answering-refusal_suppression",
+      "rag_question_answering-role_confusion",
+      "rag_question_answering-system_impersonation",
+      "rag_question_answering-tool_coercion"
+    ],
+    "dev": [
+      "customer_support-citation_hijack",
+      "customer_support-context_window_distraction",
+      "customer_support-metadata_instruction",
+      "customer_support-multi_turn_callback",
+      "document_assistant-citation_hijack",
+      "document_assistant-context_window_distraction",
+      "document_assistant-metadata_instruction",
+      "document_assistant-multi_turn_callback",
+      "email_assistant-citation_hijack",
+      "email_assistant-context_window_distraction",
+      "email_assistant-metadata_instruction",
+      "email_assistant-multi_turn_callback",
+      "rag_question_answering-citation_hijack",
+      "rag_question_answering-context_window_distraction",
+      "rag_question_answering-metadata_instruction",
+      "rag_question_answering-multi_turn_callback"
+    ],
+    "test": [
+      "customer_support-authority_claim",
+      "customer_support-data_poisoned_memory",
+      "customer_support-policy_forgery",
+      "customer_support-recursive_indirection",
+      "document_assistant-authority_claim",
+      "document_assistant-data_poisoned_memory",
+      "document_assistant-policy_forgery",
+      "document_assistant-recursive_indirection",
+      "email_assistant-authority_claim",
+      "email_assistant-data_poisoned_memory",
+      "email_assistant-policy_forgery",
+      "email_assistant-recursive_indirection",
+      "rag_question_answering-authority_claim",
+      "rag_question_answering-data_poisoned_memory",
+      "rag_question_answering-policy_forgery",
+      "rag_question_answering-recursive_indirection"
+    ]
+  },
+  "primary_attack_mechanism_holdout": {
+    "train": [
+      "developer_impersonation",
+      "direct_override",
+      "encoded_directive",
+      "html_comment",
+      "markdown_hidden",
+      "multilingual_switch",
+      "prompt_exfiltration",
+      "quoted_instruction",
+      "refusal_suppression",
+      "role_confusion",
+      "system_impersonation",
+      "tool_coercion"
+    ],
+    "dev": [
+      "citation_hijack",
+      "context_window_distraction",
+      "metadata_instruction",
+      "multi_turn_callback"
+    ],
+    "test": [
+      "authority_claim",
+      "data_poisoned_memory",
+      "policy_forgery",
+      "recursive_indirection"
+    ]
+  },
+  "domain_leave_one_out_folds": [
+    {
+      "fold_id": "domain_holdout:customer_support",
+      "filter": {
+        "metadata.domain": "customer_support"
+      },
+      "train_count": 1800,
+      "heldout_count": 600,
+      "train_episode_id_sha256": "09D3DEFC60C3931BA2046A9C797FFAAB831AFB20A4241198C2A11824EDE19B15",
+      "heldout_episode_id_sha256": "988B0C5D15E88CFC72288C6D6378584E1CC59D25DC243DBCCC20AE8C5DF675F0"
+    },
+    {
+      "fold_id": "domain_holdout:document_assistant",
+      "filter": {
+        "metadata.domain": "document_assistant"
+      },
+      "train_count": 1800,
+      "heldout_count": 600,
+      "train_episode_id_sha256": "9BFA540E8748CBE766D1F95A209945CF0F653E8F5D9E6041681CE31D3560E415",
+      "heldout_episode_id_sha256": "5E7048DE87B685B45ACC1B40FBE1C2BB3025788A8986A9EDC62DE522149F519E"
+    },
+    {
+      "fold_id": "domain_holdout:email_assistant",
+      "filter": {
+        "metadata.domain": "email_assistant"
+      },
+      "train_count": 1800,
+      "heldout_count": 600,
+      "train_episode_id_sha256": "A4CDA75CF2C5EE8BD6E59B3238F8275C86639A9201BD392E3CE2F16B49FB81F0",
+      "heldout_episode_id_sha256": "8C6C9C0208A4BF83AE36AE5DE9D10A431FDA1488347619A7608157533D30007D"
+    },
+    {
+      "fold_id": "domain_holdout:rag_question_answering",
+      "filter": {
+        "metadata.domain": "rag_question_answering"
+      },
+      "train_count": 1800,
+      "heldout_count": 600,
+      "train_episode_id_sha256": "6E5D4B5CEB83DA2A4D68A195CEB59CEAFCD390623297DF430EFCD016E5AB838F",
+      "heldout_episode_id_sha256": "A2B86A8F5822E8A82B19A61DB1A1EDE6ECA946803CAE3A2E9326487BF3981A86"
+    }
+  ],
+  "surface_realization_leave_one_out_folds": [
+    {
+      "fold_id": "surface_realization_holdout:vipibench.compiler.surface_a",
+      "filter": {
+        "metadata.generator_id": "vipibench.compiler.surface_a"
+      },
+      "train_count": 1600,
+      "heldout_count": 800,
+      "train_episode_id_sha256": "439C8ADE5C219DAEAEA2C61E69BEFEE72070B7079E20A7D70D827135EC35C3FE",
+      "heldout_episode_id_sha256": "9996A0B4A8B4FBB2F903B83E7A48415F89CCB3FAF3C30D8DDA64D0F3C61B22A5"
+    },
+    {
+      "fold_id": "surface_realization_holdout:vipibench.compiler.surface_b",
+      "filter": {
+        "metadata.generator_id": "vipibench.compiler.surface_b"
+      },
+      "train_count": 1600,
+      "heldout_count": 800,
+      "train_episode_id_sha256": "C274020521E47D75409102D28CD01F036FC483F267E7D4C13090AFE0C7F90FF3",
+      "heldout_episode_id_sha256": "284FB081F5FF25E8001A9635ED814F96973B3EEBB55991EFB0E1F983D4B8D7B3"
+    },
+    {
+      "fold_id": "surface_realization_holdout:vipibench.compiler.surface_c",
+      "filter": {
+        "metadata.generator_id": "vipibench.compiler.surface_c"
+      },
+      "train_count": 1600,
+      "heldout_count": 800,
+      "train_episode_id_sha256": "33C0723859138FAD02637B55A29A7EF23015559806A43EC0B177F5CA706C301C",
+      "heldout_episode_id_sha256": "30FD6ABFF61F674F61180B9E2A658497E31CB63ED5EAF17F2FE92FDFA343C9C8"
+    }
+  ],
+  "tuning_policy": "Primary test, domain-held-out, and surface-held-out records are evaluation-only."
+}

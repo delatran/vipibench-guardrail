@@ -1,0 +1,45 @@
+schema_version: 2.0.0
+decision_status: locked_research_design
+executable_benchmark:
+  name: ViPIBench-Exec-2.4K
+  accepted_episodes: 2400
+  labels_by_construction: true
+  deterministic_oracle_required: true
+  family_split: [48, 16, 16]
+training_only_synthetic:
+  name: ViPITrain-Synth
+  accepted_context_limit: 10000
+  training_only: true
+  allowed_splits: [train]
+  forbidden_splits: [dev, test, ood]
+  requires_provenance_complete: true
+  requires_exact_and_near_duplicate_audit: true
+  requires_generator_and_domain_holdout_audit: true
+scaling_study:
+  model_config: configs/models/mdeberta_core.yaml
+  input_mode: text_role
+  seeds: [17, 29, 43]
+  fixed_exec_dev_test: true
+  threshold_source: exec_dev_only
+  subset_strategy: nested_family_stratified
+  subset_seed: 17
+  arms:
+    - arm_id: exec_only
+      synthetic_contexts: 0
+    - arm_id: synth_1k
+      synthetic_contexts: 1000
+    - arm_id: synth_5k
+      synthetic_contexts: 5000
+    - arm_id: synth_10k
+      synthetic_contexts: 10000
+stop_rule:
+  comparison: synth_10k_vs_synth_5k
+  primary_metric: tpr_at_fpr_0_05
+  confidence_level: 0.95
+  cluster_key: template_family
+  practical_equivalence_margin_abs: 0.01
+  stop_if_interval_contains_zero: true
+  max_hard_negative_fpr_regression_abs: 0.01
+  require_generator_and_domain_holdout_evidence: true
+  expansion_above_10k_requires_new_protocol: true
+status: locked_protocol

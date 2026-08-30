@@ -1,0 +1,20 @@
+run_name: deepset_public_detector
+model_type: public_transformer_detector
+runtime_profile: configs/profiles/accelerator_80gb.yaml
+contrast_dataset: data/processed/provenance_contrast.jsonl
+backbone: deepset/deberta-v3-base-injection
+model_revision: 80dda00d0b0d9a03917a7685e2ddbcd28e04dbb1
+tokenizer_revision: 80dda00d0b0d9a03917a7685e2ddbcd28e04dbb1
+input_mode: text_only
+max_length: 512
+batch_candidates: [32, 64, 128, 256]
+target_memory_utilization: 0.88
+capacity_warmup_batches: 1
+capacity_measurement_batches: 2
+capacity_repeats: 2
+injection_label_id: 1
+threshold_source: dev_only
+primary_fpr: 0.05
+secondary_fpr: 0.01
+status: locked_protocol
+license_decision: internal_evaluation_only

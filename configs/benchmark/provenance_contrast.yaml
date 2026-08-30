@@ -1,0 +1,18 @@
+schema_version: "1.0.0"
+status: locked_protocol
+generator_revision: provenance-contrast-v1
+source_catalog: configs/benchmark/exec_catalog.yaml
+pair_counts:
+  train: 600
+  dev: 200
+  test_primary: 200
+  test_diagnostic: 200
+diagnostic_conditions:
+  source_tag_spoof: 40
+  long_context: 40
+  quoted_boundary: 40
+  format_noise: 40
+  code_mix: 40
+claim_boundary: >-
+  Labels are executable authorization outcomes derived from a deterministic construction.
+  They are not human-annotated natural-distribution labels.

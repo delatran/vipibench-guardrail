@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "status": "PASS",
+  "errors": [],
+  "split_dir": "data\\splits\\frozen",
+  "dataset_sha256": "95A5DD49B61836D53B42C2A4C1C41025279A6A811C87064F4D6570346C00373E",
+  "config_sha256": "7B593E8C3C128148F9AF91EAB36BB09E3F9FAFD05EA6961CA8D238071EECBBEB",
+  "episode_counts": {
+    "train": 1440,
+    "dev": 480,
+    "test": 480
+  },
+  "family_counts": {
+    "train": 48,
+    "dev": 16,
+    "test": 16
+  },
+  "unique_episode_count": 2400,
+  "unique_family_count": 80,
+  "unique_template_count": 80,
+  "matched_pair_group_count": 200,
+  "exact_cross_split_context_duplicate_count": 0,
+  "near_duplicate_audit": {
+    "method": "character_tfidf_cosine",
+    "analyzer": "char_wb",
+    "ngram_range": [
+      3,
+      5
+    ],
+    "threshold": 0.9,
+    "maximum_cross_split_similarity": 0.6227494905396582,
+    "violation_count": 0,
+    "top_cross_split_pairs": [
+      {
+        "similarity": 0.6227494905396582,
+        "left_split": "train",
+        "left_episode_id": "customer_support-developer_impersonation-24",
+        "right_split": "dev",
+        "right_episode_id": "customer_support-metadata_instruction-24"
+      },
+      {
+        "similarity": 0.6198296987901591,
+        "left_split": "train",
+        "left_episode_id": "rag_question_answering-tool_coercion-24",
+        "right_split": "dev",
+        "right_episode_id": "rag_question_answering-multi_turn_callback-24"
+      },
+      {
+        "similarity": 0.6196691822473986,
+        "left_split": "train",
+        "left_episode_id": "customer_support-refusal_suppression-24",
+        "right_split": "test",
+        "right_episode_id": "customer_support-authority_claim-24"
+      },
+      {
+        "similarity": 0.6180528528836418,
+        "left_split": "dev",
+        "left_episode_id": "rag_question_answering-citation_hijack-24",
+        "right_split": "test",
+        "right_episode_id": "rag_question_answering-data_poisoned_memory-24"
+      },
+      {
+        "similarity": 0.6170325680871737,
+        "left_split": "train",
+        "left_episode_id": "rag_question_answering-prompt_exfiltration-24",
+        "right_split": "dev",
+        "right_episode_id": "rag_question_answering-citation_hijack-24"
+      },
+      {
+        "similarity": 0.6164147656439665,
+        "left_split": "dev",
+        "left_episode_id": "customer_support-citation_hijack-24",
+        "right_split": "test",
+        "right_episode_id": "customer_support-authority_claim-24"
+      },
+      {
+        "similarity": 0.6162414412087756,
+        "left_split": "train",
+        "left_episode_id": "rag_question_answering-prompt_exfiltration-24",
+        "right_split": "test",
+        "right_episode_id": "rag_question_answering-data_poisoned_memory-24"
+      },
+      {
+        "similarity": 0.615646012562926,
+        "left_split": "train",
+        "left_episode_id": "customer_support-multilingual_switch-24",
+        "right_split": "test",
+        "right_episode_id": "customer_support-policy_forgery-24"
+      },
+      {
+        "similarity": 0.6044039597595773,
+        "left_split": "dev",
+        "left_episode_id": "rag_question_answering-multi_turn_callback-24",
+        "right_split": "test",
+        "right_episode_id": "rag_question_answering-data_poisoned_memory-24"
+      }
+    ]
+  },
+  "split_hashes": {
+    "train": "833D508394B74207EF5523BAF85DA72720F23E509A5703AEE84A104F8CFD1AB3",
+    "dev": "AEE3AF7B0F0B3D71D14DA479F34E01107BD0EE3C78DEA6F293F4B41E8D64C546",
+    "test": "324E7B0F9EB2759A92ADCB36896BD29E9F6AAE55EDDF3E14C0FECA196019F710"
+  },
+  "claim_boundary": "PASS proves frozen group isolation, exact reconciliation, and the declared TF-IDF near-duplicate threshold. It does not prove semantic independence."
+}

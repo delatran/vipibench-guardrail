@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0.0",
+  "status": "PASS",
+  "sealed": true,
+  "errors": [],
+  "generation_contract": "predeclared_test_families_new_surface_realization_indices_30_59",
+  "independence_scope": "New episode IDs, template hashes, context markers, and content hashes on the predeclared mechanism-disjoint test families. This is not a new mechanism family set.",
+  "config_path": "configs/benchmark/exec_catalog.yaml",
+  "config_sha256": "7B593E8C3C128148F9AF91EAB36BB09E3F9FAFD05EA6961CA8D238071EECBBEB",
+  "source_frozen_split_hashes": {
+    "train": "833D508394B74207EF5523BAF85DA72720F23E509A5703AEE84A104F8CFD1AB3",
+    "dev": "AEE3AF7B0F0B3D71D14DA479F34E01107BD0EE3C78DEA6F293F4B41E8D64C546",
+    "test": "324E7B0F9EB2759A92ADCB36896BD29E9F6AAE55EDDF3E14C0FECA196019F710"
+  },
+  "split_hashes": {
+    "train": "833D508394B74207EF5523BAF85DA72720F23E509A5703AEE84A104F8CFD1AB3",
+    "dev": "AEE3AF7B0F0B3D71D14DA479F34E01107BD0EE3C78DEA6F293F4B41E8D64C546",
+    "test": "7604888253F4A449E91F25755A6956CF86DC21FC903F3D2BC01036809E6B3A9A"
+  },
+  "template_catalog_sha256": "297D7AD9D7B2A9585DB1C4D353A3FC274E76082DCDD0DDA166BA86E6ED89D694",
+  "episode_counts": {
+    "train": 1440,
+    "dev": 480,
+    "test": 480
+  },
+  "test_label_counts": {
+    "benign": 240,
+    "injection": 240
+  },
+  "test_family_count": 16,
+  "hard_negative_count": 120,
+  "matched_pair_count": 40,
+  "overlap_counts": {
+    "episode_id_with_frozen": 0,
+    "content_hash_with_frozen": 0,
+    "family_with_train_or_dev": 0
+  },
+  "prior_exposed_test_path": "data/splits/frozen/test.jsonl",
+  "prior_exposed_test_classification": "exploratory_only",
+  "claim_boundary": "PASS proves deterministic generation, byte-level non-overlap, and train/dev family isolation. It does not prove semantic independence from the synthetic renderer."
+}

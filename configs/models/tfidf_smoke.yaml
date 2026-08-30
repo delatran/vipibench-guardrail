@@ -1,0 +1,13 @@
+run_name: tfidf_smoke
+model_type: tfidf_logistic
+input_mode: text_role
+seed: 17
+train_path: data/splits/fixture/train.jsonl
+dev_path: data/splits/fixture/dev.jsonl
+test_path: data/splits/fixture/test.jsonl
+output_dir: outputs/smoke/model
+word_ngram_range: [1, 2]
+char_ngram_range: [3, 5]
+max_features: 12000
+class_weight: balanced
+fixture_only: true

@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:vipibench:prelaunch-readiness:schema:2.0.0",
+  "title": "ViPIBench Prelaunch Readiness",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "milestone",
+    "mode",
+    "status",
+    "checks",
+    "failed_checks",
+    "launch_hashes",
+    "hardware_observed",
+    "paid_compute_authorized",
+    "hardware_note",
+    "launch_gate",
+    "required_live_checks",
+    "external_actions_performed",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0.0"},
+    "generated_at": {"type": "string", "minLength": 1},
+    "milestone": {
+      "enum": [
+        "READY_FOR_CONFIRMATORY_LAUNCH",
+        "LOCAL_PREFLIGHT_CONTRACT_PASS",
+        "NOT_READY"
+      ]
+    },
+    "mode": {"const": "prelaunch"},
+    "status": {"enum": ["PASS", "FAIL"]},
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "status", "evidence"],
+        "properties": {
+          "name": {"type": "string", "minLength": 1},
+          "status": {"enum": ["PASS", "FAIL"]},
+          "evidence": {}
+        }
+      }
+    },
+    "failed_checks": {"type": "array", "items": {"type": "string"}},
+    "launch_hashes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "runtime_source_fingerprint",
+        "artifact_manifest",
+        "launch_notebook",
+        "accelerator_profile",
+        "dependency_lock",
+        "encoder_config",
+        "experiment_protocol",
+        "confirmatory_analysis_protocol",
+        "confirmatory_holdout_manifest",
+        "confirmatory_holdout_test",
+        "frozen_split_manifest",
+        "provenance_benchmark",
+        "public_detector_config",
+        "autonomous_execution_policy",
+        "confirmatory_stage_plan",
+        "resource_estimate",
+        "resource_estimate_validation",
+        "target_agent_config",
+        "vipibench_exec"
+      ],
+      "properties": {
+        "runtime_source_fingerprint": {"type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"},
+        "artifact_manifest": {"type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"},
+        "launch_notebook": {"type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"},
+        "accelerator_profile": {"type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"},
+        "dependency_lock": {"type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"},
+        "encoder_config": {"type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"},
+        "experiment_protocol": {"type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"},
+        "confirmatory_analysis_protocol": {"type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"},
+        "confirmatory_holdout_manifest": {"type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"},
+        "confirmatory_holdout_test": {"type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"},
+        "frozen_split_manifest": {"type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"},
+        "provenance_benchmark": {"type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"},
+        "public_detector_config": {"type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"},
+        "autonomous_execution_policy": {"type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"},
+        "confirmatory_stage_plan": {"type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"},
+        "resource_estimate": {"type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"},
+        "resource_estimate_validation": {"type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"},
+        "target_agent_config": {"type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"},
+        "vipibench_exec": {"type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"}
+      }
+    },
+    "hardware_observed": {"const": false},
+    "paid_compute_authorized": {"const": false},
+    "hardware_note": {"type": "string", "minLength": 1},
+    "launch_gate": {"type": "string", "minLength": 1},
+    "required_live_checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "external_actions_performed": {"type": "array", "maxItems": 0},
+    "claim_boundary": {"type": "string", "minLength": 1}
+  }
+}

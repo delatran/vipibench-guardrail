@@ -1,0 +1,8 @@
+name: local_smoke
+mode: smoke
+compute_required: false
+device: host
+minimum_system_ram_gib: 2
+minimum_disk_free_gib: 1
+mixed_precision: false
+fixture_only: true

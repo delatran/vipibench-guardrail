@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools==80.9.0", "wheel==0.46.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vipibench-guardrail"
+version = "0.1.0"
+description = "Reproducible Vietnamese context-aware prompt-injection detection research pipeline."
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+license = "LicenseRef-Internal-Research-Pending-Review"
+authors = [{name = "ViPIBench research project"}]
+dependencies = [
+  "fastapi==0.139.0",
+  "httpx==0.28.1",
+  "joblib==1.5.3",
+  "jsonschema==4.26.0",
+  "matplotlib==3.11.1",
+  "numpy==2.4.6",
+  "pydantic==2.13.4",
+  "psutil==7.2.2",
+  "PyYAML==6.0.3",
+  "scikit-learn==1.9.0",
+  "typer==0.26.8",
+  "uvicorn==0.51.0"
+]
+
+[project.optional-dependencies]
+experiment = [
+  "accelerate==1.14.0",
+  "datasets==5.0.0",
+  "ipykernel==7.3.0",
+  "nbconvert==7.17.1",
+  "protobuf==7.35.1",
+  "sentencepiece==0.2.2",
+  "torch==2.13.0",
+  "transformers==5.13.1"
+]
+dev = [
+  "pytest==9.1.1",
+  "pytest-cov==7.0.0",
+  "ruff==0.15.7"
+]
+
+[project.scripts]
+vipibench = "vipibench.cli:app"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers"
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]

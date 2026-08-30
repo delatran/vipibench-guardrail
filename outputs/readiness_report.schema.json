@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/vipibench/readiness-report.schema.json",
+  "title": "ViPIBench Confirmatory Readiness",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "milestone",
+    "mode",
+    "status",
+    "checks",
+    "failed_checks",
+    "hardware_observed",
+    "paid_compute_authorized",
+    "hardware_note",
+    "launch_gate",
+    "external_actions_performed",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "milestone": {
+      "enum": ["READY_FOR_CONFIRMATORY_EXECUTION", "LOCAL_SMOKE_CONTRACT_PASS", "NOT_READY"]
+    },
+    "mode": {"const": "prelaunch"},
+    "status": {"enum": ["PASS", "FAIL"]},
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "status", "evidence"],
+        "properties": {
+          "name": {"type": "string", "minLength": 1},
+          "status": {"enum": ["PASS", "FAIL"]},
+          "evidence": {}
+        }
+      }
+    },
+    "failed_checks": {"type": "array", "items": {"type": "string"}},
+    "hardware_observed": {"const": false},
+    "paid_compute_authorized": {"const": false},
+    "hardware_note": {"type": "string", "minLength": 1},
+    "launch_gate": {"type": "string", "minLength": 1},
+    "external_actions_performed": {"type": "array", "maxItems": 0},
+    "claim_boundary": {"type": "string", "minLength": 1}
+  }
+}

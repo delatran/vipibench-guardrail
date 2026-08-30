@@ -1,0 +1,111 @@
+schema_version: "3.0.0"
+status: complete_for_frozen_benchmarks_and_confirmatory_holdout
+access_date: "2026-07-23"
+scope: frozen_core_2_4k_provenance_contrast_2_4k_confirmatory_surface_holdout_and_internal_preparation
+policy: >-
+  Every current benchmark artifact is internally authored, immutable, and hash-bound. Generated
+  text remains untrusted input; labels come from construction metadata and deterministic sandbox
+  outcomes. Future rendered training contexts require a separate output manifest before use.
+sources:
+  - source_family: internal_executable_templates
+    source_uri: internal://vipibench-exec/templates
+    immutable_revision: 7B593E8C3C128148F9AF91EAB36BB09E3F9FAFD05EA6961CA8D238071EECBBEB
+    source_version: exec-catalog-v1
+    license_id: LicenseRef-Internal-Synthetic
+    training_decision: allow_internal_research
+    evaluation_decision: allow_internal_research
+    release_decision: internal_only
+    unresolved: false
+  - source_family: internal_provenance_contrast
+    source_uri: internal://vipibench-exec/provenance-contrast
+    immutable_revision: 269D084279AE591169D48271B0EAA59D69F807943BCA10C5F11BC5588830E178
+    source_version: provenance-contrast-v1
+    license_id: LicenseRef-Internal-Synthetic
+    training_decision: allow_internal_research
+    evaluation_decision: allow_internal_research
+    release_decision: internal_only
+    unresolved: false
+  - source_family: adaptive_attack_generator
+    source_uri: https://huggingface.co/Qwen/Qwen3-4B
+    immutable_revision: 1cfa9a7208912126459214e8b04321603b3df60c
+    declared_license: Apache-2.0
+    role: future_attack_search_only
+    included_in_current_frozen_benchmark: false
+    training_decision: renderer_allowed_after_output_provenance_gate
+    evaluation_decision: not_a_ground_truth_oracle
+    release_decision: pending_output_review
+    unresolved: false
+    output_provenance_required: true
+  - source_family: target_agent
+    source_uri: https://huggingface.co/Qwen/Qwen3-8B
+    immutable_revision: b968826d9c46dd6066d109eabc6255188de91218
+    declared_license: Apache-2.0
+    role: experimental_system_under_test
+    included_in_current_frozen_benchmark: false
+    training_decision: not_a_training_label_source
+    evaluation_decision: outputs_require_deterministic_oracle
+    release_decision: pending_output_review
+    unresolved: false
+    output_provenance_required: true
+artifact_bindings:
+  benchmark:
+    path: data/processed/vipibench_exec.jsonl
+    sha256: 95A5DD49B61836D53B42C2A4C1C41025279A6A811C87064F4D6570346C00373E
+  template_manifest:
+    path: data/processed/vipibench_exec_templates.jsonl
+    sha256: 5DF0AA96C1B430FF29D8DE6B09019711D8E44123A08478F6CB56E93F5123BA49
+  split_manifest:
+    path: data/splits/frozen/split_manifest.json
+    sha256: F76015C1860BF5FD5E93A31041A6E137C816C7C874EFA99B74C6D34F6989E6DA
+  catalog:
+    path: configs/benchmark/exec_catalog.yaml
+    sha256: 7B593E8C3C128148F9AF91EAB36BB09E3F9FAFD05EA6961CA8D238071EECBBEB
+  compiler:
+    path: src/vipibench/compiler.py
+    sha256: 3EF987B88571087C7DD4895739E2F9C493BB1F35CD3EDAA7303A5754AE242985
+  oracle:
+    path: src/vipibench/oracle.py
+    sha256: BCB27D90514A7B4C0C25F9CEF048A8F9F4A949EE6A5C20269D05BE56FA65BB6F
+  episode_schema:
+    path: docs/schema/vipibench_episode.schema.json
+    sha256: 620D2824CDE5CB6BF3F42B3F7DD2151CC76078DD85E75F00BD2379A05C5CACDE
+  provenance_contrast:
+    path: data/processed/provenance_contrast.jsonl
+    sha256: 04D1D4564BA682697DC566C0A7933161A04520F0DC1D24540ECF765F4D134761
+  provenance_contrast_config:
+    path: configs/benchmark/provenance_contrast.yaml
+    sha256: 269D084279AE591169D48271B0EAA59D69F807943BCA10C5F11BC5588830E178
+  provenance_contrast_manifest:
+    path: outputs/provenance_contrast_manifest.json
+    sha256: 07B250DC24A7E1AD8699AADD9AFEE52673B09BC6DDFFDBEF45F25FD1247EC7EF
+  confirmatory_holdout_manifest:
+    path: data/splits/confirmatory_final/manifest.json
+    sha256: 0D6D62B875CF72F80FE3440130A64320558964335BC90780C5CA5BAC6CE3AB32
+  confirmatory_holdout_test:
+    path: data/splits/confirmatory_final/test.jsonl
+    sha256: 7604888253F4A449E91F25755A6956CF86DC21FC903F3D2BC01036809E6B3A9A
+  confirmatory_holdout_templates:
+    path: data/splits/confirmatory_final/templates.jsonl
+    sha256: 297D7AD9D7B2A9585DB1C4D353A3FC274E76082DCDD0DDA166BA86E6ED89D694
+expected_episode_contract:
+  episode_count: 2400
+  context_count: 4800
+  source_uri_prefix: internal://vipibench/
+  source_version: exec-catalog-v1
+  license_id: LicenseRef-Internal-Synthetic
+  external_source_count: 0
+expected_confirmatory_contract:
+  test_episode_count: 480
+  benign_count: 240
+  injection_count: 240
+  episode_id_overlap_with_frozen: 0
+  content_hash_overlap_with_frozen: 0
+  family_overlap_with_train_or_dev: 0
+excluded_confirmatory_sources:
+  - source_family: unreviewed_public_prompt_injection_corpora
+    decision: quarantine
+    reason: component_license_lineage_or_contamination_not_bound
+claim_boundary: >-
+  Complete applies only to the frozen internal benchmarks, provenance contrast set, and sealed
+  confirmatory surface-realization holdout. It does not establish semantic independence from the
+  renderer. Future generated contexts, uploads, public release, and publication require review.

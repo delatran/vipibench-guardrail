@@ -1,0 +1,13 @@
+name: standard_compute
+mode: development
+compute_required: true
+required_device_type: cuda
+advertised_device_memory_class_gib: [16, 24]
+minimum_device_memory_gib: 15
+maximum_expected_device_memory_gib: 24
+minimum_system_ram_gib: 24
+minimum_disk_free_gib: 40
+mixed_precision: true
+bf16_preferred: true
+allow_host_fallback: false
+target_memory_utilization: 0.85

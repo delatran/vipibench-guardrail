@@ -1,0 +1,300 @@
+{
+  "$defs": {
+    "Delivery": {
+      "enum": [
+        "direct",
+        "indirect",
+        "none"
+      ],
+      "title": "Delivery",
+      "type": "string"
+    },
+    "Label": {
+      "enum": [
+        "injection",
+        "benign"
+      ],
+      "title": "Label",
+      "type": "string"
+    },
+    "LabelBasis": {
+      "enum": [
+        "construction",
+        "executable_oracle"
+      ],
+      "title": "LabelBasis",
+      "type": "string"
+    },
+    "LanguageForm": {
+      "enum": [
+        "native_vi",
+        "translated_vi",
+        "unaccented_vi",
+        "code_mix"
+      ],
+      "title": "LanguageForm",
+      "type": "string"
+    },
+    "SourceRole": {
+      "enum": [
+        "user",
+        "retrieved",
+        "tool"
+      ],
+      "title": "SourceRole",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Detector-context record derived from an executable episode with immutable lineage.",
+  "properties": {
+    "sample_id": {
+      "minLength": 1,
+      "title": "Sample Id",
+      "type": "string"
+    },
+    "seed_id": {
+      "minLength": 1,
+      "title": "Seed Id",
+      "type": "string"
+    },
+    "source_family": {
+      "minLength": 1,
+      "title": "Source Family",
+      "type": "string"
+    },
+    "template_id": {
+      "minLength": 1,
+      "title": "Template Id",
+      "type": "string"
+    },
+    "semantic_cluster": {
+      "minLength": 1,
+      "title": "Semantic Cluster",
+      "type": "string"
+    },
+    "label": {
+      "$ref": "#/$defs/Label"
+    },
+    "label_basis": {
+      "$ref": "#/$defs/LabelBasis"
+    },
+    "is_injection": {
+      "title": "Is Injection",
+      "type": "boolean"
+    },
+    "source_role": {
+      "$ref": "#/$defs/SourceRole"
+    },
+    "delivery": {
+      "$ref": "#/$defs/Delivery"
+    },
+    "language_form": {
+      "$ref": "#/$defs/LanguageForm"
+    },
+    "raw_text": {
+      "minLength": 1,
+      "title": "Raw Text",
+      "type": "string"
+    },
+    "raw_text_sha256": {
+      "pattern": "^[A-F0-9]{64}$",
+      "title": "Raw Text Sha256",
+      "type": "string"
+    },
+    "normalized_text": {
+      "minLength": 1,
+      "title": "Normalized Text",
+      "type": "string"
+    },
+    "system_text": {
+      "default": "",
+      "title": "System Text",
+      "type": "string"
+    },
+    "user_text": {
+      "default": "",
+      "title": "User Text",
+      "type": "string"
+    },
+    "retrieved_text": {
+      "default": "",
+      "title": "Retrieved Text",
+      "type": "string"
+    },
+    "tool_text": {
+      "default": "",
+      "title": "Tool Text",
+      "type": "string"
+    },
+    "domain": {
+      "minLength": 1,
+      "title": "Domain",
+      "type": "string"
+    },
+    "benign_subtype": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Benign Subtype"
+    },
+    "source_uri": {
+      "minLength": 1,
+      "title": "Source Uri",
+      "type": "string"
+    },
+    "source_version": {
+      "minLength": 1,
+      "title": "Source Version",
+      "type": "string"
+    },
+    "generator_revision": {
+      "minLength": 1,
+      "title": "Generator Revision",
+      "type": "string"
+    },
+    "oracle_version": {
+      "minLength": 1,
+      "title": "Oracle Version",
+      "type": "string"
+    },
+    "provenance_sha256": {
+      "pattern": "^[A-F0-9]{64}$",
+      "title": "Provenance Sha256",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "license_id": {
+      "minLength": 1,
+      "title": "License Id",
+      "type": "string"
+    },
+    "license_decision": {
+      "pattern": "^(allowed|internal_only|pending|denied)$",
+      "title": "License Decision",
+      "type": "string"
+    },
+    "transformation_tool": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Transformation Tool"
+    },
+    "transformation_tool_revision": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Transformation Tool Revision"
+    },
+    "transformation_prompt_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[A-F0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Transformation Prompt Sha256"
+    },
+    "transformation_history": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Transformation History",
+      "type": "array"
+    },
+    "hard_negative": {
+      "default": false,
+      "title": "Hard Negative",
+      "type": "boolean"
+    },
+    "matched_pair_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Matched Pair Id"
+    },
+    "obfuscation": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Obfuscation"
+    },
+    "fixture_only": {
+      "default": false,
+      "title": "Fixture Only",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "sample_id",
+    "seed_id",
+    "source_family",
+    "template_id",
+    "semantic_cluster",
+    "label",
+    "label_basis",
+    "is_injection",
+    "source_role",
+    "delivery",
+    "language_form",
+    "raw_text",
+    "raw_text_sha256",
+    "normalized_text",
+    "domain",
+    "source_uri",
+    "source_version",
+    "generator_revision",
+    "oracle_version",
+    "provenance_sha256",
+    "created_at",
+    "license_id",
+    "license_decision",
+    "transformation_history"
+  ],
+  "title": "ViPIBench Dataset Record",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/vipibench/dataset-record.schema.json"
+}
